@@ -1,0 +1,29 @@
+package controller;
+
+import java.io.IOException;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import service.EmpService;
+import view.ModelAndView;
+
+public class EmpListController implements Controller {
+
+	@Override
+	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response)
+	        throws IOException {
+
+	    EmpService service = EmpService.getInstance();
+
+	    String type = request.getParameter("type");
+	    String keyword = request.getParameter("keyword");
+
+	    if (keyword == null || keyword.trim().isEmpty()) {
+	        request.setAttribute("list", service.getList());
+	    } else {
+	        request.setAttribute("list", service.getEmp(type, keyword));
+	    }
+
+	    return new ModelAndView("main", false);
+	}
+}

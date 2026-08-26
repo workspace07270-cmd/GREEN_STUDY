@@ -1,0 +1,16 @@
+package controller;
+
+import java.io.IOException;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+public class SelectMemberController implements Controller {
+
+	@Override
+	public Object execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.46/a5cfe99fdf320e84955ef653f2ce1bf789d11385/lombok-1.18.46.jar" />
+        </processorPath>
+        <module name="step17-board-backend.test" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.46/a5cfe99fdf320e84955ef653f2ce1bf789d11385/lombok-1.18.46.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.5.15/dd1f197a202c7ea67c4fef05c3fe259b55fb2640/spring-boot-configuration-processor-3.5.15.jar" />
+        </processorPath>
+        <module name="step17-board-backend.main" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="step15-security-basic" target="21" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="step14-board-jpa" options="-parameters" />
+      <module name="step14-board-jpa.main" options="-parameters" />
+      <module name="step14-board-jpa.test" options="-parameters" />
+      <module name="step15-security-basic" options="-parameters" />
+      <module name="step15-security-basic-front" options="-parameters" />
+      <module name="step15-security-basic-front.main" options="-parameters" />
+      <module name="step15-security-basic-front.test" options="-parameters" />
+      <module name="step15-security-basic.main" options="-parameters" />
+      <module name="step15-security-basic.test" options="-parameters" />
+      <module name="step16-security-oauth2-back" options="-parameters" />
+      <module name="step16-security-oauth2-back.main" options="-parameters" />
+      <module name="step16-security-oauth2-back.test" options="-parameters" />
+      <module name="step17-board-backend" options="-parameters" />
+      <module name="step17-board-backend.main" options="-parameters" />
+      <module name="step17-board-backend.test" options="-parameters" />
+    </option>
+  </component>
+</project>

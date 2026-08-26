@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CarMapper">
+  <select id="selectAllCar" resultType="dto.CarDTO">
+  	select 
+  		car_id as carId, brand, model, year, 
+  		mileage, price, registered_at as registeredAt 
+  	from 
+  		cars
+  </select>
+  <insert id="insertCar">
+  	INSERT INTO cars (car_id, brand, model, year, mileage, price, registered_at)
+  	values(#{carId}, #{brand}, #{model}, #{year}, #{mileage},#{price},#{registeredAt})
+  </insert>
+  <delete id="deleteCar">
+  	delete from cars where car_id = #{id}
+  </delete>
+  <update id="updateCar">
+  	UPDATE cars
+    SET 
+        brand = #{brand},
+        model = #{model},
+        year = #{year},
+        mileage = #{mileage},
+        price = #{price},
+        registered_at = #{registeredAt}
+    WHERE 
+        car_id = #{carId}
+  </update>
+  <select id="selectBrandCar" resultType="dto.CarDTO">
+  	select 
+  		car_id as carId, brand, model, year, 
+  		mileage, price, registered_at as registeredAt 
+  	from 
+  		cars
+	where
+		brand in
+		<foreach collection="array" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>  	
+  
+  </select>
+</mapper>
+
+
+
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentapi.student.mapper.StudentMapper">
+    <resultMap id="studentResponseMap" type="StudentResponse">
+        <constructor>
+            <arg column="no" javaType="java.lang.String"/>
+            <arg column="major_no" javaType="java.lang.String"/>
+            <arg column="major_name" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="phone" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="studentColumns">
+        SELECT s.no, s.major_no, m.name AS major_name, s.name, s.phone
+        FROM student s
+        JOIN major m ON m.no = s.major_no
+    </sql>
+
+    <select id="findAll" resultMap="studentResponseMap">
+        <include refid="studentColumns"/>
+        ORDER BY s.no
+    </select>
+
+    <select id="findByNo" resultMap="studentResponseMap">
+        <include refid="studentColumns"/>
+        WHERE s.no = #{no}
+    </select>
+
+    <select id="existsByNo" resultType="boolean">
+        SELECT EXISTS(SELECT 1 FROM student WHERE no = #{no})
+    </select>
+
+    <select id="existsMajorByNo" resultType="boolean">
+        SELECT EXISTS(SELECT 1 FROM major WHERE no = #{majorNo})
+    </select>
+
+    <insert id="insert">
+        INSERT INTO student (no, major_no, name, phone)
+        VALUES (#{no}, #{request.majorNo}, #{request.name}, #{request.phone})
+    </insert>
+
+    <update id="update">
+        UPDATE student
+        SET major_no = #{request.majorNo}, name = #{request.name}, phone = #{request.phone}
+        WHERE no = #{no}
+    </update>
+
+    <delete id="deleteByNo">
+        DELETE FROM student WHERE no = #{no}
+    </delete>
+</mapper>

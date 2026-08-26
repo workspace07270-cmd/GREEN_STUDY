@@ -1,0 +1,37 @@
+package controller;
+
+import java.util.HashMap;
+
+public class HandlerMapping {
+	private static HandlerMapping instance = new HandlerMapping();
+
+	private HashMap<String, Controller> mappings;
+	
+	private HandlerMapping() {
+		mappings = new HashMap<String, Controller>();
+		mappings.put("emp_list.do", new EmpListController());
+		mappings.put("emp_writeForm.do", new EmpWriteFormController());
+		mappings.put("emp_write.do", new EmpWriteController());
+		mappings.put("emp_updateForm.do", new EmpUpdateFormController());
+		mappings.put("emp_update.do", new EmpUpdateController());
+		mappings.put("emp_delete.do", new EmpDeleteController());
+	}
+
+	public static HandlerMapping getInstance() {
+		if (instance == null)
+			instance = new HandlerMapping();
+		return instance;
+	}
+
+	public Controller getController(String command) {
+		
+		
+		
+		return mappings.get(command);
+	}
+}
+
+
+
+
+

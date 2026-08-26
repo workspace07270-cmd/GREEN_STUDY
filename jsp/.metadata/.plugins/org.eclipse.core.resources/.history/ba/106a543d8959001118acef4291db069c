@@ -1,0 +1,9 @@
+package api;
+
+public class NaverAPICall {
+	//네이버 API 호출을 하는 클래스
+	//블로그 검색하는 메서드 작성
+	//검색어는 React에서 axios를 이용해서 전달
+	//서블릿에 받아서 해당메서드를 실행
+	//결과를 문자열로 리턴
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+    실제 SQL문들을 모아두는 파일입니다.
+    namespace는 이 SQL문들과 연결될 자바 인터페이스의 이름을 적습니다.
+-->
+<mapper namespace="mapper.StudentMapper">
+	
+	<!-- 전체 학생 정보를 조회합니다. 결과는 StudentDTO1 객체에 자동으로 담깁니다. -->
+	<select id="selectAllStudent" resultType="dto.StudentDTO">
+		select * from students
+	</select>
+	
+	<!-- 이름 검색: #{name} 부분에 자바에서 넘겨준 검색어가 들어갑니다. -->
+	<select id="selectForName" resultType="dto.StudentDTO">
+		select * from students where name like concat('%',#{name},'%')
+	</select>
+	
+	<!-- 학번 검색 -->
+	<select id="selectForNo" resultType="dto.StudentDTO">
+		select * from students where student_id = #{id}
+	</select>
+	
+	<!-- 데이터 추가: #{필드명}을 쓰면 DTO 객체의 해당 데이터가 쏙 들어갑니다. -->
+	<insert id="insertStudent">
+		insert into students(student_id, name, department, gpa)
+		values(#{student_id},#{name},#{department},#{gpa})	
+	</insert>
+	
+	<!-- 데이터 삭제 -->
+	<delete id="deleteStudent">
+		delete from students
+		where student_id = #{id}
+	</delete>
+	
+	<!-- 데이터 수정 -->
+	<update id="updateStudent">
+		update students set name=#{name}, department=#{department}, gpa=#{gpa}
+		where student_id = #{student_id}
+	</update>
+	
+	<!-- 학과별 학생수 통계: 결과가 특정 객체로 담기 어려울 때는 'map'을 사용합니다. -->
+	<select id="selectStudentDeptCount" resultType="map">
+		select department as major_name, count(*) as major_count 
+		from students group by department
+	</select>
+	
+</mapper>

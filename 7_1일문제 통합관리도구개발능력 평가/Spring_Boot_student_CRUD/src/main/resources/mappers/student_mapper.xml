@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.StudentMapper">
+<sql id="columns">
+    s.student_id, s.student_no, s.student_name, s.dept_id, d.dept_name, s.grade, s.phone, s.email, s.created_at
+</sql>
+    <select id="findAll" resultType="student">
+        SELECT
+        <include refid="columns"/>
+        FROM student s
+        LEFT JOIN department d
+        ON s.dept_id = d.dept_id
+        ORDER BY s.student_no
+    </select>
+
+    <select id="search" resultType="student">
+        SELECT
+        <include refid="columns"/>
+        FROM student s
+        LEFT JOIN department d ON s.dept_id = d.dept_id
+        <where>
+            <choose>
+                <when test="category == 'student_name'">
+                    AND s.student_name LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="category == 'dept_name'">
+                    AND d.dept_name LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+            </choose>
+        </where>
+        ORDER BY s.student_no
+    </select>
+
+    <select id="findAllDepartments" resultType="department">
+        SELECT dept_id, dept_name
+        FROM department
+        ORDER BY dept_name
+    </select>
+
+    <insert id="insert">
+        INSERT INTO student (student_no, student_name, dept_id, grade, phone, email, created_at)
+        VALUES (#{student_no}, #{student_name}, #{dept_id}, #{grade}, #{phone}, #{email}, NOW())
+    </insert>
+
+    <select id="findById" resultType="student">
+        SELECT
+        <include refid="columns"/>
+        FROM student s
+        LEFT JOIN department d ON s.dept_id = d.dept_id
+        WHERE s.student_id = #{studentId}
+    </select>
+
+    <update id="update">
+        UPDATE student
+        SET student_no = #{student_no},
+            student_name = #{student_name},
+            dept_id = #{dept_id},
+            grade = #{grade},
+            phone = #{phone},
+            email = #{email},
+            updated_at = NOW()
+        WHERE student_id = #{student_id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM student
+        WHERE student_id = #{studentId}
+    </delete>
+
+</mapper>

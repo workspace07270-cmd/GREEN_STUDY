@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	게시판 관련된 SQL(데이터베이스 명령어)을 모아둔 파일입니다.
+	매퍼(Mapper) 인터페이스와 연결되어 실제 DB 작업을 수행합니다.
+-->
+<mapper namespace="mapper.BoardMapper">
+	
+	<!-- 
+		[결과 매핑(ResultMap)]
+		DB의 컬럼 이름과 자바 객체(BoardDTO)의 변수 이름이 다를 때,
+		어느 컬럼이 어느 변수에 들어갈지 짝지어주는 설정입니다.
+	-->
+	<resultMap type="dto.BoardDTO" id="board">
+		<!-- 기본키(PK)는 id 태그로, 나머지는 result 태그로 연결합니다. -->
+		<id column="bno" property="bno"/>
+		<result column="no" property="mno"/>
+		<result column="write_date" property="writeDate"/>
+		<result column="bcount" property="bcount"/>
+		<result column="bhate" property="bhate"/>
+		<result column="blike" property="blike"/>
+		<result column="board_comment_count" property="ccount"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="nickname" property="nickName"/>
+		<result column="write_update_date" property="updateDate"/>
+	</resultMap>
+	
+	<!-- 
+		[게시글 목록 조회]
+		1페이지당 30개씩 게시글을 잘라서(페이징) 가져옵니다.
+	-->
+	<select id="selectBoardList" resultMap="board">
+		select * 
+		from 
+			(select ROW_NUMBER() OVER(ORDER BY b.bno desc) as rw, b.*
+				from 
+			board_view b) bv
+		where 
+			ceil(bv.rw/30) = #{page}
+	</select>
+	
+	<!-- 
+		[새 게시글 작성]
+		useGeneratedKeys="true" keyProperty="bno" 설정은,
+		DB에서 자동으로 생성된 글번호(bno)를 자바 객체로 다시 돌려받기 위함입니다.
+	-->
+	<insert id="insertBoard" useGeneratedKeys="true" keyProperty="bno">
+		insert into board(title,content,mno)
+		values(#{title},#{content},#{mno})
+	</insert>
+	
+	<!-- 
+		[여러 첨부파일 한 번에 저장]
+		foreach 태그를 사용해 리스트(list)에 든 파일 정보들을 한 번의 INSERT문으로 저장합니다.
+	-->
+	<insert id="insertBoardFile">
+		insert into board_file(bno,fpath)
+		values
+		<foreach collection="list" item="file" separator=",">
+			(#{file.bno},#{file.fpath})
+		</foreach>
+		
+	</insert>
+	
+	<!-- [전체 게시글 수 확인 (페이징용)] -->
+	<select id="selectBoardCount" resultType="int">
+		select count(*) from board_view
+	</select>
+	
+	<!-- [특정 게시글 상세 조회] -->
+	<select id="selectBoard" resultMap="board">
+		select * from board_view where bno = #{bno}
+	</select>
+	
+	<!-- [특정 게시글의 첨부파일 목록 조회] -->
+	<select id="selectFileList" resultType="dto.BoardFileDTO">
+		select * from board_file where bno = #{bno}
+	</select>
+	
+	<!-- [게시글 조회수 1 증가] -->
+	<update id="updateBoardCount">
+		update board set bcount = bcount + 1		
+		where bno = #{bno}
+	</update>
+	
+	<!-- [좋아요 기록 추가] -->
+	<insert id="insertBoardLike">
+		insert into board_like(bno,no) values(#{bno},#{mno})
+	</insert>
+	
+	<!-- [좋아요 기록 삭제 (취소)] -->
+	<delete id="deleteBoardLike">
+		delete from board_like where bno = #{bno} and no = #{mno}
+	</delete>
+	
+	<!-- [해당 게시글의 총 좋아요 수 조회] -->
+	<select id="selectBoardLikeCount" resultType="int">
+		select count(*) from board_like where bno = #{bno}
+	</select>
+
+
+	<insert id="insertBoardHate">
+		insert into board_hate(bno,no) values(#{bno},#{mno})
+	</insert>
+	
+	<delete id="deleteBoardHate">
+		delete from board_hate where bno = #{bno} and no = #{mno}
+	</delete>
+	
+	<select id="selectBoardHateCount" resultType="int">
+		select count(*) from board_hate where bno = #{bno}
+	</select>
+	
+	<insert id="insertBoardComment">
+		insert into board_comment(bno,content,mno)
+		values(#{bno},#{content},#{mno})
+	</insert>
+	
+	<select id="selectBoardCommentList" resultType="comment">
+		select * 
+		from
+			(select ceil(row_number() over(order by bcv.cno desc) / 5) as page, bcv.*
+			from board_comment_view bcv
+			where bcv.bno = #{bno}) bcv
+		where 
+			bcv.page = #{page};
+	</select>
+	<insert id="insertBoardCommentLikeHate">
+		insert into 
+			<choose>
+				<when test="mode == 'like'">
+					board_comment_like(no,cno)
+				</when>
+				<otherwise>
+					board_comment_hate(no,cno)
+				</otherwise>
+			</choose>
+		values(#{mno},#{cno})
+	
+	</insert>
+	<delete id="deleteBoardCommentLikeHate">
+		delete from 
+		<choose>
+			<when test="mode == 'like'">
+				board_comment_like
+			</when>
+			<otherwise>
+				board_comment_hate
+			</otherwise>
+		</choose>
+		where no = #{mno} and cno = #{cno}
+	</delete>
+	
+	<select id="selectBoardCommentLikeHateCount" resultType="int">
+		select count(*) from
+		<choose>
+			<when test="mode == 'like'">
+				board_comment_like
+			</when>
+			<otherwise>
+				board_comment_hate
+			</otherwise>
+		</choose>
+		where cno = #{cno}
+
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

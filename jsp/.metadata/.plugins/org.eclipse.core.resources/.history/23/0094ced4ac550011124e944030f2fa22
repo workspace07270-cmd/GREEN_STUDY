@@ -1,0 +1,61 @@
+package mybatis1.mapper;
+
+import java.util.List;
+
+import mybatis1.config.DBManager;
+import mybatis1.dto.StudentDTO1;
+
+/**
+ * [학생 매퍼 클래스]
+ * MyBatis의 SQL 세션을 사용하여 실제로 데이터베이스 쿼리를 실행하는 역할을 합니다.
+ */
+public class StudentMapper2 {
+	// DB 접속과 세션 관리를 담당하는 매니저 객체
+	private DBManager manager;
+
+	public StudentMapper2() {
+		// 싱글톤 객체를 가져와 초기화합니다.
+		manager = DBManager.getInstance();
+	}
+	
+	/**
+	 * [전체 학생 조회]
+	 * @return 모든 학생 정보가 담긴 List 객체
+	 */
+	public List<StudentDTO1> selectAllStudent(){
+		// selectList: 결과가 여러 행(List)일 때 사용합니다.
+		// "selectAllStudent": XML 파일에 정의된 <select id="selectAllStudent">를 실행합니다.
+		return manager.getSession().selectList("selectAllStudent");
+	}
+	
+	/**
+	 * [학번으로 특정 학생 조회]
+	 * @param no 조회할 학번
+	 * @return 한 명의 학생 정보 (없으면 null)
+	 */
+	public StudentDTO1 selectForNo(String no) {
+		// selectOne: 결과가 딱 하나(단일 행)일 때 사용합니다.
+		// 두 번째 인자(no)는 SQL 문에 전달할 파라미터입니다.
+		return manager.getSession().selectOne("selectForNo", no);
+	}
+	
+	/**
+	 * [신규 학생 정보 저장]
+	 * @param dto 저장할 학생 데이터가 담긴 객체
+	 * @return 성공한 행의 개수 (1이면 성공)
+	 */
+	public int insertStudent(StudentDTO1 dto) {
+		// insert: 데이터를 삽입할 때 사용합니다.
+		// DTO 객체를 파라미터로 넘기면 XML에서 #{no}, #{name} 등으로 필드 값을 꺼내 씁니다.
+		return manager.getSession().insert("insertStudent", dto);
+	}
+}
+
+
+
+
+
+
+
+
+

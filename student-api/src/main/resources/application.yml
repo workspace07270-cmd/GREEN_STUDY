@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: student-api
+  datasource:
+    url: jdbc:mysql://localhost:3306/new_student_db
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.example.studentapi.student.dto
+  configuration:
+    map-underscore-to-camel-case: true
+
+server:
+  port: 8080

@@ -1,0 +1,23 @@
+package controller;
+
+import java.io.IOException;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import service.EmpService;
+import view.ModelAndView;
+
+public class EmpListController implements Controller {
+
+    @Override
+    @Override
+    public ModelAndView execute(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        EmpService service = EmpService.getInstance();
+
+        request.setAttribute("list", service.getList());
+
+        return new ModelAndView("main", false);
+    }
+}

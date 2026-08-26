@@ -1,0 +1,23 @@
+package mapper;
+
+import java.util.List;
+
+import dto.EmpDTO;
+
+public interface EmpMapper {
+	//모두조회
+	public List<EmpDTO> getList();
+	
+	//이름으로 조회
+	public List<EmpDTO> getEmp();
+	
+	// 등록하는 추상 메소드
+	public int insertEmployee(EmpDTO dto);
+
+	// 수정하는 추상 메소드
+	public int updateEmployee(String no);
+
+	// 삭제하는 추상 메소드
+	public int deleteEmployee(EmpDTO dto);
+	
+}

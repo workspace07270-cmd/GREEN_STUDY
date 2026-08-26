@@ -1,0 +1,50 @@
+package servlet;
+
+import java.io.IOException;
+
+import controller.Controller;
+import controller.HandlerMapping;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import view.ModelAndView;
+
+@WebServlet("*.do")
+public class DispatcherServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public DispatcherServlet() {
+        super();
+    }
+
+	/** 모든 GET 방식의 요청을 처리합니다. */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String uri = request.getRequestURI();
+		
+		String contextPath = request.getContextPath();
+		
+		String path = uri.substring(contextPath.length()+1);
+
+		Controller controller = HandlerMapping.getInstance().getController(path);
+		
+		ModelAndView view = null;
+		if(controller != null)
+			view = controller.execute(request, response);
+		
+		if(view != null) {
+			if(view.isRedirect()) {
+				response.sendRedirect(contextPath +"/" + view.getPath());
+			}else {
+				request.getRequestDispatcher(view.getPath()).forward(request, response);
+			}
+		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}

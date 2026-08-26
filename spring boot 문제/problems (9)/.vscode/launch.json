@@ -1,0 +1,34 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Problem01App<thymeleaf-problem01>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.spring.problem01.Problem01App",
+            "projectName": "thymeleaf-problem01",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Problem02App<thymeleaf-problem02>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.spring.problem02.Problem02App",
+            "projectName": "thymeleaf-problem02",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Problem03App<thymeleaf-problem03>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.spring.problem03.Problem03App",
+            "projectName": "thymeleaf-problem03",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

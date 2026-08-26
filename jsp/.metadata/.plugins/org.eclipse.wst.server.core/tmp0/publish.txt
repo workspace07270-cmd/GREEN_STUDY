@@ -1,0 +1,11 @@
+#Tomcat publish data
+#Wed May 27 16:54:42 KST 2026
+org.eclipse.jst.jee.server\:FileUpload=C\:\\GREEN workspace\\apache-tomcat-11.0.22\\webapps\\FileUpload
+org.eclipse.jst.jee.server\:board-project=C\:\\GREEN workspace\\apache-tomcat-11.0.22\\webapps\\board-project
+org.eclipse.jst.jee.server\:employee-project=C\:\\GREEN workspace\\apache-tomcat-11.0.22\\webapps\\employee-project
+org.eclipse.jst.jee.server\:member-api-server=C\:\\GREEN workspace\\apache-tomcat-11.0.22\\webapps\\member-api-server
+org.eclipse.jst.jee.server\:memeber-Project=C\:\\GREEN workspace\\apache-tomcat-11.0.22\\webapps\\memeber-Project
+org.eclipse.jst.jee.server\:naver-api-server=C\:\\GREEN workspace\\apache-tomcat-11.0.22\\webapps\\naver-api-server
+org.eclipse.jst.jee.server\:student-mvc=C\:\\GREEN workspace\\apache-tomcat-11.0.22\\webapps\\student-mvc
+org.eclipse.jst.jee.server\:student-mvc-dao=C\:\\GREEN workspace\\apache-tomcat-11.0.22\\webapps\\student-mvc-dao
+org.eclipse.jst.jee.server\:student-mvc-mybatis=C\:\\GREEN workspace\\apache-tomcat-11.0.22\\webapps\\student-mvc-mybatis

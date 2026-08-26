@@ -1,0 +1,20 @@
+1779066765801	Rename type 'DeleteController'
+1779066781187	Rename type 'MEmberDeleteController'
+1779066791393	Rename type 'RegisterController'
+1779066810347	Rename type 'memberRegisterController'
+1779066816955	Rename type 'SearchController'
+1779066823315	Rename type 'UpdateController'
+1779066832795	Rename type 'UpdateViewController'
+1779068798120	Rename type 'MemberService'
+1779068808448	Rename type 'MemberDTO'
+1779069533909	Rename type 'BoardDTO'
+1779069539287	Delete element
+1779069566004	Delete element
+1779069877000	Rename type 'BoardService'
+1779071852255	Copy file
+1779167344614	Delete element
+1779174507803	Delete element
+1779174680925	Move 'style.css' to 'css'
+1779174765960	Move 2 resources to 'resources'
+1779245535654	Rename type 'BoardCommentView'
+1779264282694	Copy file

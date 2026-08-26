@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	window.onload = () => {
+		document.querySelector('.btn_upload').onclick = () => {
+			//file, text 전부 선택
+			const fileList = document.querySelectorAll('input[type=file]');
+			console.log(fileList);
+			const textList = document.querySelectorAll('input:not(input[type=file])');
+			console.log(textList);
+			
+			const formData = new FormData();
+			
+			fileList.forEach(item => formData.append('file',item.files[0]));
+			textList.forEach(item => formData.append(item.name,item.value));
+			
+			//ajax로 전송
+			fetch('./fileUpload.do',{
+				method : 'POST',
+				body : formData
+			}).then(response => response.json())
+			.then(data =>{
+				console.log("success : ",data);
+			})	
+		}
+	}
+</script>
+</head>
+<body>
+	<h2>파일 업로드 테스트</h2>
+	내용1 :
+	<input type="text" name="txt1">
+	내용2 :
+	<input type="text" name="txt2">
+	<br> 파일 :
+	<input type="file" name="file">
+	<br> 파일 :
+	<input type="file" name="file">
+	<br> 파일 :
+	<input type="file" name="file">
+	<br>
+	<button class="btn_upload">파일 업로드</button>
+</body>
+</html>
+
+
+
+
+

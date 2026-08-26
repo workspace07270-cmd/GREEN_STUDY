@@ -1,0 +1,29 @@
+package controller;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+
+import dto.MemberDTO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import service.MemberService;
+
+
+public class MainController implements Controller {
+
+	@Override
+	public Object execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		List<MemberDTO> list = MemberService.getInstance().selectAllMember();
+		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		map.put("resultTime", sdf.format(new Date()));
+		map.put("dataSize", list.size());
+		map.put("list", list);
+		return map;
+	}
+
+}
+
+

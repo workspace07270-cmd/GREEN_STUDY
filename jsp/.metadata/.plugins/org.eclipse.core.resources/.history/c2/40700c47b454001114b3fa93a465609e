@@ -1,0 +1,5 @@
+package config;
+
+public class APIKEY {
+	String PUBLIC_DATA_KEY= "27f55e035a48478c505a3dd0e84124d59ec7136b0c7f56049fcaf8761191fb04";
+}

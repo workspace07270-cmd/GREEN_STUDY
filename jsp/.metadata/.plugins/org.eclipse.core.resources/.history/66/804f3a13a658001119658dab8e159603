@@ -1,0 +1,10 @@
+@Override
+public ModelAndView execute(HttpServletRequest request, HttpServletResponse response)
+        throws IOException {
+
+    EmpService service = EmpService.getInstance();
+
+    request.setAttribute("list", service.getList());
+
+    return new ModelAndView("main", false);
+}

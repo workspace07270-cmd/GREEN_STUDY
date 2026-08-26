@@ -1,0 +1,4 @@
+INDEX VERSION 1.134+C:\GREEN workspace\work_py\java\.metadata\.metadata\.plugins\org.eclipse.jdt.core
+1595350092.index
+1865797976.index
+3227671897.index

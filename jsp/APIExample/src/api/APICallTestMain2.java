@@ -1,0 +1,122 @@
+package api;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import config.APIKey;
+
+public class APICallTestMain2 {
+
+	public static void main(String[] args) {
+		try {
+			String baseTime = "1100";
+			// 1. URL 셋팅
+			String apiURL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=";
+			// 2. 인증키 및 파라미터 셋팅
+			apiURL += APIKey.PUBLIC_DATA_KEY;
+			apiURL += "&pageNo=1";
+			apiURL += "&numOfRows=100";
+			apiURL += "&base_date=20260521";
+			apiURL += "&base_time="+baseTime;
+			apiURL += "&base_time="+baseTime;
+			apiURL += "&nx=59";
+			apiURL += "&ny=126";
+			
+			// 3. HTTP 연결 -> 차후 HTTP 헤더에 인증 정보, timeout 설정 등을 할 수 있음
+			URI url = new URI(apiURL);
+			HttpURLConnection conn = (HttpURLConnection) url.toURL().openConnection();
+			conn.setRequestMethod("GET");
+//			conn.setConnectTimeout(5000);
+//			conn.setReadTimeout(10000);
+			// 3-1. POST일 경우 데이터를 전송
+			// 4. 응답코드 확인 - 정상적인 요청과 응답을 받으면 200
+			int responseCode = conn.getResponseCode();
+			System.out.println("Http Status Code : " + responseCode);
+			// 5. 응답 데이터를 읽어오기
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(conn.getInputStream()));
+			
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+			
+			while((line = br.readLine()) != null)
+				sb.append(line);
+			
+			// 6. 응답 데이터를 출력
+			System.out.println(sb);
+			
+			parseXML(sb.toString());
+			
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+	// xml 파싱하는 메서드
+	private static void parseXML(String xmlStr) throws Exception{
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		
+		// String을 InputStream으로 변환
+		InputStream is = new ByteArrayInputStream(xmlStr.getBytes());
+		Document doc = builder.parse(is);
+		doc.getDocumentElement().normalize();
+		
+		// 결과 코드
+		NodeList list = doc.getElementsByTagName("resultCode");
+		for(int i=0;i<list.getLength();i++) {
+			Node node = list.item(i);
+			System.out.println(node.getNodeName() + " : " + node.getTextContent());
+		}
+				
+		list = doc.getElementsByTagName("item");
+		String fcstTime = "";
+		for(int i=0;i<list.getLength();i++) {
+			Element item = (Element) list.item(i);
+			String value = getElementValue(item, "category");
+			if(!fcstTime.equals(getElementValue(item, "fcstTime")) && !fcstTime.isEmpty()) break;
+			switch(value) {
+			case "TMP":
+			case "TMN":
+			case "TMX":
+			case "PCP":
+			case "SKY":
+				if(fcstTime.isEmpty()) fcstTime = getElementValue(item, "fcstTime");
+				System.out.println(value + " : " + getElementValue(item, "fcstValue"));
+			}
+			
+		}
+		
+	}
+    // Element 내에서 태그값 추출
+	private static String getElementValue(Element el, String tagName) {
+        NodeList list = el.getElementsByTagName(tagName);
+        if (list.getLength() > 0) {
+            return list.item(0).getTextContent().trim();
+        }
+        return "-";
+    }
+	
+	
+}

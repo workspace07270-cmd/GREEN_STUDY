@@ -1,0 +1,3 @@
+숙제
+python 3.14 버전을 설치
+vscode에 연결하신후, HELLO WORLD 출력 코드 실행

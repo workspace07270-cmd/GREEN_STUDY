@@ -1,0 +1,12 @@
+package dto;
+
+public class EmpDTO {
+
+	private int emp_no;
+	private String emp_name;
+	private String dept;
+	private String position;
+	private int salary;
+	private String hire_date;
+	private String email;
+}

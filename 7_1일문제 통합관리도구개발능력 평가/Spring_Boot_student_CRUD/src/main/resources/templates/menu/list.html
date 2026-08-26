@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>학생 관리 시스템</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .search-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-form label {
+            font-weight: 600;
+            color: #333;
+            min-width: 70px;
+        }
+
+        .search-form input,
+        .search-form select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .search-form input:focus,
+        .search-form select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.2);
+        }
+
+        .search-form input[type="text"] {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-form select {
+            min-width: 120px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 12px;
+            font-size: 12px;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+            padding: 5px 12px;
+            font-size: 12px;
+        }
+
+        .btn-info:hover {
+            background-color: #138496;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .table-section {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        thead {
+            background-color: #667eea;
+            color: white;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #667eea;
+        }
+
+        td {
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        tbody tr {
+            transition: background-color 0.3s;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 16px;
+        }
+
+        .action-cell {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .search-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-form label {
+                min-width: auto;
+            }
+
+            .search-form input,
+            .search-form select {
+                width: 100%;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px 5px;
+            }
+
+            .action-cell {
+                flex-direction: column;
+            }
+
+            .btn-info, .btn-danger {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>학생 관리 시스템</h1>
+            <p class="subtitle">Spring Boot CRUD 관리도구</p>
+        </header>
+
+        <div class="search-section">
+            <form method="get" action="/menus" class="search-form">
+                <label for="category">검색 분류:</label>
+                <select id="category" name="category">
+                    <option value="" th:selected="${category == null or category == ''}">전체</option>
+                    <option value="student_name" th:selected="${category == 'student_name'}">이름</option>
+                    <option value="dept_name" th:selected="${category == 'dept_name'}">학과</option>
+                </select>
+
+                <label for="keyword">검색어:</label>
+                <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요" th:value="${keyword}">
+
+                <button type="submit" class="btn btn-primary">검색</button>
+                <a href="/menus" class="btn btn-secondary">초기화</a>
+            </form>
+        </div>
+
+        <div class="action-buttons">
+            <a th:href="@{/menus/register}" class="btn btn-success">➕ 학생 추가</a>
+        </div>
+
+        <div class="table-section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>학번</th>
+                        <th>이름</th>
+                        <th>학과</th>
+                        <th>학년</th>
+                        <th>전화</th>
+                        <th>이메일</th>
+                        <th>가입일</th>
+                        <th>작업</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(menus)}">
+                        <td colspan="8" class="no-data">학생 정보가 없습니다.</td>
+                    </tr>
+                    <tr th:each="menu : ${menus}">
+                        <td th:text="${menu.student_no}"></td>
+                        <td th:text="${menu.student_name}"></td>
+                        <td th:text="${menu.dept_name}"></td>
+                        <td th:text="${menu.grade}"></td>
+                        <td th:text="${menu.phone}"></td>
+                        <td th:text="${menu.email}"></td>
+                        <td th:text="${menu.created_at != null ? #temporals.format(menu.created_at, 'yyyy-MM-dd HH:mm') : ''}"></td>
+                        <td class="action-cell">
+                            <a th:href="@{/menus/edit/{id}(id=${menu.student_id})}" class="btn btn-info">수정</a>
+                            <form th:action="@{/menus/delete/{id}(id=${menu.student_id})}" method="post" style="display:inline;"
+                                  onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                                <button type="submit" class="btn btn-danger">삭제</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 학생 관리 시스템. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

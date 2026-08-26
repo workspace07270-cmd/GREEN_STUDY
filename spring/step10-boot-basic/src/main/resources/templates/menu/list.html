@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>키오스크 관리 페이지</h1>
+<nav>
+    <a th:href="@{/menus}">메뉴목록</a>
+    <a th:href="@{/menus/new}">메뉴 등록</a>
+</nav>
+<div class="container">
+    <!-- 메뉴명으로 검색 폼 -->
+    <form th:action="@{/menus}" method="get">
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="메뉴명으로 검색">
+        <button>검색</button>
+        <a th:href="@{/menus}">전체보기</a>
+    </form>
+    <hr>
+    <!--
+        경고창 한번 띄우고 종료하는 형식으로 처리
+        해당 영역을 5초동안 보여주고 해당 영역을 삭제
+    -->
+    <div th:if="${successMessage}" th:text="${successMessage}"
+         id="success-alert-box"
+         style="padding:15px; background-color: #d4edda; color: #155724; border :1px solid #c3e6cd; border-radius: 5px; maring:10px; opacity: 1;transition: opacity 2s ease-in-out"></div>
+    <script th:inline="javascript" th:if="${successMessage}">
+        const message = [[${successMessage}]];
+        console.log(message);
+        setTimeout(function() {
+            document.querySelector('#success-alert-box').style.opacity = '0';
+        }, 5000);
+        setTimeout(function() {
+            document.querySelector('#success-alert-box').style.display = 'none';
+        }, 7500);
+    </script>
+    <p th:if="${#lists.isEmpty(menus)}">등록 메뉴가 없습니다</p>
+    <table th:if="${!#lists.isEmpty(menus)}">
+        <thead>
+        <tr>
+            <th>메뉴번호</th>
+            <th>메뉴명</th>
+            <th>카테고리</th>
+            <th>가격</th>
+            <th>판매여부</th>
+            <th>관리</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- menus 내용 출력 -->
+        <tr th:each="menu : ${menus}">
+            <td th:text="${menu.id}"></td>
+            <td th:text="${menu.name}"></td>
+            <td th:text="${menu.category}"></td>
+            <td th:text="${menu.price}"></td>
+            <td>
+                <span th:if="${menu.available}">판매중</span>
+                <span th:if="${!menu.available}">품절</span>
+            </td>
+            <td>
+                <a th:href="@{/menus/{id}/edit(id=${menu.id})}">수정</a>
+                <a th:href="@{/menus/{id}/delete(id=${menu.id})}">삭제</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

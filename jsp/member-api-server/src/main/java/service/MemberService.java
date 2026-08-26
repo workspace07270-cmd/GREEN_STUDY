@@ -1,0 +1,128 @@
+package service;
+
+import java.util.HashMap;
+import java.util.List;
+
+import config.DBManager;
+import dto.MemberDTO;
+import mapper.MemberMapper;
+
+/**
+ * [회원 서비스 클래스]
+ * 데이터베이스 작업(DBManager, Mapper)과 컨트롤러 사이에서 실제 비즈니스 로직을 수행합니다.
+ * 프로그램 전체에서 딱 하나만 생성되어 공유되는 '싱글톤(Singleton)' 패턴으로 설계되었습니다.
+ */
+public class MemberService {
+	// 1. 자기 자신 타입의 인스턴스를 미리 static으로 하나 생성해둡니다.
+	private static MemberService instance = new MemberService();
+	
+	// MyBatis 매퍼 인터페이스 변수 (실제 SQL 실행 도구)
+	private MemberMapper mapper;
+	
+	// 2. 생성자를 private으로 설정하여 외부에서 'new MemberService()'를 호출할 수 없게 막습니다.
+	private MemberService() {	
+		// DBManager를 통해 데이터베이스 세션을 열고, MemberMapper 설정과 연결된 구현체를 가져옵니다.
+		mapper = DBManager.getInstance().getSession().getMapper(MemberMapper.class);
+	}
+	
+	// 3. 외부에서 서비스 객체가 필요할 때 이 메서드를 통해서만 공유된 인스턴스를 얻을 수 있습니다.
+	public static MemberService getInstance() {
+		if(instance == null)
+			instance = new MemberService();
+		return instance;
+	}
+
+	/**
+	 * [전체 회원 조회]
+	 * DB에 저장된 모든 회원 정보를 리스트로 가져옵니다.
+	 */
+	public List<MemberDTO> selectAllMember() {
+		return mapper.selectAllMember();
+	}
+
+	/**
+	 * [아이디로 회원 조회]
+	 * @param id 조회할 회원의 아이디
+	 * @return 일치하는 회원 정보 (DTO), 없으면 null
+	 */
+	public MemberDTO selectMemberById(String id) {
+		return mapper.selectMemberById(id);
+	}
+
+	/**
+	 * [신규 회원 가입]
+	 * @param memberDTO 가입할 회원 정보가 담긴 객체
+	 * @return 성공 시 1, 실패 시 0 반환
+	 */
+	public int insertMember(MemberDTO memberDTO) {
+		int result = 0;
+		
+		try {
+			// 매퍼를 호출하여 DB에 INSERT 문을 실행합니다.
+			result = mapper.insertMember(memberDTO);
+		}catch (Exception e) {
+			// 쿼리 실행 중 오류가 발생하면 내용을 콘솔에 출력합니다.
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	/**
+	 * [로그인 기능]
+	 * 아이디와 비밀번호를 확인하여 올바른 회원인지 검증합니다.
+	 * @param id 로그인 아이디
+	 * @param passwd 비밀번호
+	 * @return 로그인 성공 시 해당 회원 정보, 실패 시 null
+	 */
+	public MemberDTO login(String id, String passwd) {
+		// MyBatis에 전달할 파라미터가 2개 이상이므로 Map 객체에 묶어서 전달합니다.
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("passwd", passwd);
+		
+		return mapper.login(map);
+	}
+
+	/**
+	 * [회원 삭제]
+	 * @param no 삭제할 회원의 고유 번호
+	 * @return 삭제된 행의 개수 (성공 시 1)
+	 */
+	public int deleteMember(String no) {
+		return mapper.deleteMember(no);
+	}
+
+	/**
+	 * [회원 검색]
+	 * 조건(이름, 아이디 등)과 검색어를 이용해 필터링된 회원 목록을 가져옵니다.
+	 * @param kind 검색 조건 (컬럼명 등)
+	 * @param search 사용자가 입력한 검색어
+	 */
+	public List<MemberDTO> searchMembers(String kind, String search) {
+		// 검색 조건과 검색어를 Map에 담아 매퍼로 전달합니다.
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("kind", kind);
+		map.put("search", search);
+		return mapper.searchMembers(map);
+	}
+
+	/**
+	 * [번호로 회원 정보 조회]
+	 * 수정 폼 등에서 특정 회원의 데이터를 미리 채워넣기 위해 사용합니다.
+	 * @param no 회원의 고유 번호
+	 */
+	public MemberDTO selectMemberByNo(String no) {
+		return mapper.selectMemberByNo(no);
+	}
+
+	/**
+	 * [회원 정보 수정]
+	 * 변경된 회원 정보를 DB에 반영합니다.
+	 * @param memberDTO 수정된 정보가 담긴 객체
+	 * @return 수정 성공 시 1, 실패 시 0
+	 */
+	public int updateMember(MemberDTO memberDTO) {
+		return mapper.updateMember(memberDTO);
+	}
+}

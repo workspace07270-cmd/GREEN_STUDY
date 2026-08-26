@@ -1,0 +1,20 @@
+package service;
+
+import config.DBManager;
+import mapper.EmpMapper;
+
+public class EmpService {
+	private static EmpService instance = new EmpService();
+	private EmpMapper mapper;
+	
+	public EmpService() {
+		mapper = DBManager.getInstance().getSession().getMapper(EmpMapper.class);
+	}
+	
+	public static EmpService getInstance() {
+		if(instance == null)
+			instance = new EmpService();
+		return instance;
+	}
+
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>학생 수정 - 학생 관리 시스템</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.2);
+        }
+
+        .error {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #5568d3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>학생 수정</h1>
+            <p class="subtitle">학생 정보를 수정하세요</p>
+        </header>
+
+        <form th:action="@{/menus/edit}" th:object="${student}" method="post">
+            <input type="hidden" th:field="*{student_id}">
+
+            <div class="form-group">
+                <label for="student_no">학번 *</label>
+                <input type="number" id="student_no" th:field="*{student_no}" placeholder="학번을 입력하세요">
+                <p class="error" th:if="${#fields.hasErrors('student_no')}" th:errors="*{student_no}"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="student_name">이름 *</label>
+                <input type="text" id="student_name" th:field="*{student_name}" placeholder="이름을 입력하세요">
+                <p class="error" th:if="${#fields.hasErrors('student_name')}" th:errors="*{student_name}"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="dept_id">학과</label>
+                <select id="dept_id" th:field="*{dept_id}">
+                    <option value="0">선택</option>
+                    <option th:each="dept : ${departments}"
+                            th:value="${dept.dept_id}"
+                            th:text="${dept.dept_name}">학과</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="grade">학년</label>
+                <select id="grade" th:field="*{grade}">
+                    <option value="0">선택</option>
+                    <option value="1">1학년</option>
+                    <option value="2">2학년</option>
+                    <option value="3">3학년</option>
+                    <option value="4">4학년</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">전화</label>
+                <input type="tel" id="phone" th:field="*{phone}" placeholder="010-0000-0000">
+            </div>
+
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="email" id="email" th:field="*{email}" placeholder="example@email.com">
+            </div>
+
+            <div class="form-actions">
+                <a th:href="@{/menus}" class="btn btn-secondary">목록</a>
+                <button type="submit" class="btn btn-primary">수정</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

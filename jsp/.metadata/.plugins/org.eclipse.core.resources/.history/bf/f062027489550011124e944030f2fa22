@@ -1,0 +1,34 @@
+package controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import dto.MemberDTO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import service.MemberService;
+import view.ModelAndView;
+
+public class RegisterController implements Controller {
+
+	@Override
+	public Object execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		String id= request.getParameter("id");
+		String passwd= request.getParameter("passwd");
+		String name= request.getParameter("name");
+		String nick= request.getParameter("nick");
+		
+		int result = MemberService.getInstance().insertMember(
+				new MemberDTO(0, id, passwd, name, nick));
+
+		if(result == 0) {
+			response.setContentType("text/html;charset=UTF-=8");
+
+		return null;
+		}else {
+
+		return new ModelAndView("./main.do",true);
+			}
+		}
+	}

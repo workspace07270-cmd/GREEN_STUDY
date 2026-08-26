@@ -1,0 +1,28 @@
+### 전체 조회
+GET http://localhost:8080/api/students
+
+### 단건 조회
+GET http://localhost:8080/api/students/20260001
+
+### 등록
+POST http://localhost:8080/api/students/20260001
+Content-Type: application/json
+
+{
+  "majorNo": "006",
+  "name": "홍길동",
+  "phone": "01012345678"
+}
+
+### 수정
+PUT http://localhost:8080/api/students/20260001
+Content-Type: application/json
+
+{
+  "majorNo": "007",
+  "name": "홍길동",
+  "phone": "01099998888"
+}
+
+### 삭제
+DELETE http://localhost:8080/api/students/20260001

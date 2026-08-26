@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: memeber-Project
+Bundle-SymbolicName: memeber-Project
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-25
+Automatic-Module-Name: memeber.Project
+Export-Package: config,
+ controller,
+ mapper,
+ service,
+ servlet,
+ view

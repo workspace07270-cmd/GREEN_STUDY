@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.CarMapper">
+
+    <sql id="carColumns">
+        car_id, brand, model, year, mileage, price, registered_at
+    </sql>
+
+    <select id="findAll" resultType="car">
+        SELECT <include refid="carColumns" /> FROM cars
+    </select>
+
+    <insert id="save" parameterType="car" useGeneratedKeys="true" keyProperty="carId">
+        INSERT INTO cars (brand, model, year, mileage, price)
+        VALUES (#{brand}, #{model}, #{year}, #{mileage}, #{price})
+    </insert>
+
+    <select id="findById" resultType="car">
+        SELECT <include refid="carColumns" /> FROM cars WHERE car_id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM cars WHERE car_id = #{id}
+    </delete>
+
+    <update id="edit">
+        UPDATE
+        cars
+        SET
+        brand = #{brand},
+        model = #{model},
+        year = #{year},
+        mileage = #{mileage},
+        price = #{price}
+        WHERE
+        car_id = #{carId}
+    </update>
+</mapper>

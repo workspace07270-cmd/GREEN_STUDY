@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Spring Boot Test</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 48px 56px;
+            max-width: 560px;
+            width: 100%;
+            text-align: center;
+        }
+        .badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 26px;
+            color: #1a237e;
+            margin-bottom: 16px;
+        }
+        p.message {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            text-align: left;
+        }
+        .info-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+        .info-item .label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .info-item .value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 600;
+        }
+        .check { color: #43a047; margin-right: 6px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="badge">&#10003; 환경 설정 완료</div>
+        <h1 th:text="${title}">제목</h1>
+        <p class="message" th:text="${message}">메시지</p>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="label">Framework</div>
+                <div class="value"><span class="check">&#10003;</span>Spring Boot 4</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Template Engine</div>
+                <div class="value"><span class="check">&#10003;</span>Thymeleaf</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Java Version</div>
+                <div class="value" th:text="${javaVersion}">-</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Active Profile</div>
+                <div class="value" th:text="${springProfile}">-</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

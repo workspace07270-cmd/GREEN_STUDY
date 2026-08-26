@@ -1,0 +1,71 @@
+-- ================================================================
+-- 사원 관리 시스템 DB 초기화 스크립트
+-- Java 21 · Tomcat 11 · Maven · MyBatis · MySQL 8
+-- ================================================================
+
+
+-- ----------------------------------------------------------------
+-- 1. 데이터베이스 생성
+-- ----------------------------------------------------------------
+CREATE DATABASE IF NOT EXISTS emp_db;
+
+USE emp_db;
+
+
+-- ----------------------------------------------------------------
+-- 2. 테이블 생성 (기존 테이블이 있으면 삭제 후 재생성)
+-- ----------------------------------------------------------------
+DROP TABLE IF EXISTS emp;
+
+CREATE TABLE emp (
+  emp_no    INT          NOT NULL AUTO_INCREMENT  COMMENT '사원번호',
+  emp_name  VARCHAR(50)  NOT NULL                 COMMENT '사원명',
+  dept      VARCHAR(30)  NOT NULL                 COMMENT '부서명',
+  position  VARCHAR(30)  NOT NULL                 COMMENT '직급',
+  salary    INT          NOT NULL                 COMMENT '급여(원)',
+  hire_date DATE         NOT NULL                 COMMENT '입사일',
+  email     VARCHAR(100)                          COMMENT '이메일',
+  PRIMARY KEY (emp_no),
+  UNIQUE KEY uq_email (email)
+);
+
+
+-- ----------------------------------------------------------------
+-- 3. 샘플 데이터 20건 INSERT
+-- ----------------------------------------------------------------
+INSERT INTO emp (emp_name, dept, position, salary, hire_date, email) VALUES
+('김민준', '개발팀',    '팀장',  5800000, '2017-03-06', 'minjun.kim@example.com'),
+('이서연', '기획팀',    '과장',  4500000, '2018-07-23', 'seoyeon.lee@example.com'),
+('박지호', '개발팀',    '대리',  3800000, '2020-01-13', 'jiho.park@example.com'),
+('최수아', '디자인팀',  '사원',  2900000, '2023-03-02', 'sua.choi@example.com'),
+('정우진', '개발팀',    '사원',  3100000, '2022-09-05', 'woojin.jung@example.com'),
+('한지민', '인사팀',    '과장',  4300000, '2019-04-15', 'jimin.han@example.com'),
+('오승현', '개발팀',    '대리',  3700000, '2020-11-30', 'seunghyun.oh@example.com'),
+('윤채원', '마케팅팀',  '사원',  2800000, '2024-01-08', 'chaewon.yoon@example.com'),
+('임도현', '기획팀',    '대리',  3600000, '2021-06-21', 'dohyun.im@example.com'),
+('강소희', '디자인팀',  '팀장',  5200000, '2016-08-17', 'sohee.kang@example.com'),
+('신현우', '개발팀',    '사원',  3000000, '2023-07-10', 'hyunwoo.shin@example.com'),
+('류지원', '인사팀',    '사원',  2750000, '2024-03-04', 'jiwon.ryu@example.com'),
+('백승민', '마케팅팀',  '대리',  3500000, '2021-02-08', 'seungmin.baek@example.com'),
+('송하은', '기획팀',    '사원',  2850000, '2023-11-20', 'haeun.song@example.com'),
+('노태양', '개발팀',    '과장',  4700000, '2018-05-14', 'taeyang.noh@example.com'),
+('문예린', '디자인팀',  '대리',  3400000, '2021-09-27', 'yerin.moon@example.com'),
+('홍재원', '마케팅팀',  '팀장',  5500000, '2015-12-01', 'jaewon.hong@example.com'),
+('서민서', '인사팀',    '대리',  3550000, '2020-08-03', 'minseo.seo@example.com'),
+('전하준', '개발팀',    '과장',  4600000, '2019-10-22', 'hajun.jeon@example.com'),
+('양나은', '기획팀',    '팀장',  5100000, '2016-04-11', 'naeun.yang@example.com');
+
+
+-- ----------------------------------------------------------------
+-- 4. 결과 확인
+-- ----------------------------------------------------------------
+SELECT
+  emp_no,
+  emp_name,
+  dept,
+  position,
+  FORMAT(salary, 0) AS salary,
+  hire_date,
+  email
+FROM emp
+ORDER BY emp_no;

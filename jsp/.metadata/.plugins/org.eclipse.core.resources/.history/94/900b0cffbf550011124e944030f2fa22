@@ -1,0 +1,29 @@
+package controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import dto.EmpDTO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import service.EmpService;
+import view.ModelAndView;
+
+public class EmpListController implements Controller {
+
+	@Override
+	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// 1. 서비스 호출
+        EmpService service = EmpService.getInstance();
+
+        // 2. 전체 리스트 조회
+        List<EmpDTO> list = service.getList();
+
+        // 3. request에 데이터 담기
+        request.setAttribute("list", list);
+
+        // 4. view 이동 (forward)
+        return new ModelAndView("main", false);
+	}
+
+}

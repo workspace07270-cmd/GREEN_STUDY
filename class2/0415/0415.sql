@@ -1,0 +1,397 @@
+
+-- 전체 데이터기준
+-- 1. 전체학생수 구하기
+select count(*) from student;
+-- 2. 전화번호가 등록된 학생 수 구하기
+-- null 이 아닌 개수
+update student set phone = null where name like '윤%';
+select*from student where phone is null;
+select count(phone) from student;
+-- 3. 전체수강 내역의 평균 평점을 구하기
+select truncate(avg(grade),2) from enrollment;
+-- 4. 개설된 강좌중 가장 높은 학점과 낮은 학점을 구하기
+select max(score),min(score) from course;
+-- 5. 모든 강좌의 학점 총합
+select sum(score) from course;
+
+-- 테이블 단일 그룹화
+-- 1. 학과 번호별 학생 수 구하기
+select major_no, count(*) as student_count
+from student
+group by major_no
+order by student_count desc;
+
+-- 2. 수강 테이블에서 강좌 번호별 수강생 수 조회
+select course_no, count(*) as course_count
+from enrollment
+group by course_no;
+
+-- 3. 수강테이블에서 학생 번호별 수강중인 과목수를 조회
+select student_no, count(*) as course_count
+from enrollment
+group by student_no;
+
+-- 4. 강좌 번호별 최고 평점, 최저 평점
+select course_no, max(grade), min(grade)
+from enrollment
+group by course_no;
+
+-- 5.학과 테이블에서 건물별로 위치한 학과 수 조회
+select building,count(*) as count_major
+from major
+group by building;
+
+-- having 절 활용(그룹 조건 필터)
+-- 1. 강좌별 수강생 인원수를 조회(단, 수강생이 150명 이상인것만 대상)
+select course_no, count(*) as course_count
+from enrollment
+group by course_no having count(*) >=150;
+
+-- 2. 평균평점이 2.5이상 학생들을 조회 
+-- 학번 평균_평점
+select student_no, avg(grade) as avg_grade
+from enrollment
+group by student_no having avg(grade) >=2.5;
+
+-- 3. 입학년도별 학생 인원수 조회
+select left(no,4) as in_year, count(*) as count_student
+from student
+group by left(no,4);
+
+-- 4. 학과번호별 소속학생이 100명 이상인 학과번호와 인원수를 조회
+select major_no, count(*)
+from student
+group by major_no having count(*) >=100;
+
+-- 조인 ,동일 조인, 외부조인(아웃터 조인), 레프트 아웃 조인
+
+-- 기본 조인
+-- 1.학생이름과 학과명을 함께 조회
+select s.name, m.name
+from student s join major m on s.major_no= m. no;
+
+-- 2. 수강 테이블에서 학번 이름 취득 평점 조회
+select s.student_no, m.name, s.grade
+from enrollment s join student m on s.student_no= m.no;
+
+select s.student_no, m.name, avg(s.grade)
+from enrollment s join student m on s.student_no= m.no
+group by m.no, m.name;
+-- 윗 내가해본거
+
+select s.no, s.name, e.grade
+from student s join enrollment e on s.no = e.student_no;
+
+select s.no, s.name, avg(e.grade) as avg_grade
+from student s join enrollment e on s.no = e.student_no
+group by s.no, s.name;
+
+-- 3. 수강 테이블에서 강좌 번호, 강좌명, 취득한 평점 조회
+select s.no, s.name, m.grade
+from course s join enrollment m on s.no = m. course_no;
+
+select s.no, s.name, avg(m.grade)
+from course s join enrollment m on s.no = m. course_no
+group by s.no, s.name;
+
+-- 4. 학과 테이블 학과이름과 건물이름, 해당 학과 소속의 학생이름을
+-- 학과이름기준으로 정렬해서 조회
+select m.name, m.building, s.name
+from major m join student s on m.no= s.major_no
+order by m.name, s.name desc;
+
+-- 정규화
+-- 5. 학생이름, 학과명, 수강한 강좌명, 취득한 평점
+select s.name, m.name, c.name, e.grade
+from student s 
+	join enrollment e on s.no= e.student_no
+	join course c on e.course_no= c.no
+	join major m on s.major_no = m.no;
+    
+select *
+from student s
+	join enrollment e on s.no= e.student_no
+	join course c on e.course_no= c.no
+	join major m on s.major_no = m.no;
+    
+-- -------------------------------------------------------------------
+-- 조인과 조건 결함
+-- 1. '컴퓨터공학과'에 소속된 학생들의 이름과 전화번호 조회하기
+-- 여기서 컴퓨터공학과만 지정해야한다
+select m.name, s.name, s.phone
+from student s
+	join major m on s.major_no = m.no
+where m.name ='컴퓨터공학과';  
+	
+-- 2. 평점 4.0 이상을 받은 학생의 이름과 강좌 번호 조회하기
+select s.name, e.course_no, e.grade
+from student s
+	join enrollment e on s.no=e.student_no
+where e. grade >=4.0;
+
+select s.name, count(*) as grade_count
+from student s
+	join enrollment e on s.no=e.student_no
+where e. grade >=4.0
+group by s.name;
+
+-- 3. 특정 학생(예: 학번 '20230001')이 수강하는 강좌 이름과 학점(시수) 조회하기
+select c.name, c.score
+from enrollment e join course c on e.course_no = c.no
+where e.student_no like '20230001';
+
+-- 4. 3학점(score=3)짜리 과목을 수강하는 학생 이름과 과목 이름 조회하기
+select s.name, c.name
+from student s 
+	join enrollment e on s.no= e.student_no
+	join course c on e.course_no = c.no;
+
+-- 5. '공학1관'에서 수업을 듣는(해당 건물의 학과 소속인) 학생들의 이름과 전공 조회하기    
+select s.name as name, m.name as m_name
+from major m join student s on s.major_no = m.no
+where m.building = '공학1관';
+-- -----------------------------------------------------------------------------------------
+-- 자연 조인
+create table A(
+	code char(1),
+    n int);
+
+create table B(
+	code char(1),
+    cdate date default (CURRENT_DATE)
+);
+
+insert into A values('A',1),('B',2),('C',3),('D',4);
+insert into B(code) values('A'),('B'),('D'),('F');
+select * from A natural join B;
+
+select * from A cross join B;
+-- -------------------------------------------------------------
+-- join 과 group 결합  vs gemini
+-- 1. 학과이름별 학생수 조회
+select m.name, count(*) as student_count
+from student s join major m on s.major_no = m.no
+group by m.name
+order by m.name;
+
+-- 2. 학생이름 별, 전체 수강 과목의 평균 평점 조회, 전체 이수한 학점의 합 조회
+select s.name, avg(e.grade) as avg_grade, sum(c.score) as total_score
+from student s 
+	join enrollment e on s.no = e.student_no
+    join course c on e.course_no = c.no
+group by s.no, s.name;
+
+-- 3. 강좌 이름별, 수강생 숫자, 이수한 평균 평점 조회
+select c.name, count(e.student_no) as student_count, avg(e.grade) as avg_grade
+from course c 
+	join enrollment e on c.no = e.course_no
+group by c.no, c.name;
+    
+-- 4. 학과별, 수강과목별, 수강한 학생 인원수 조회
+select m.name as major_name, c.name as course_name, count(e.student_no) as student_count
+from major m
+	join student s on m.no = s.major_no
+    join enrollment e on s.no = e.student_no
+    join course c on e.course_no = c.no
+group by m.name, c.name;
+
+-- 5. 입학년도별, 학과별, 인원 수 조회 
+select left(s.no, 4) as entry_year, m.name as major_name, count(*) as student_count
+from student s
+	join major m on s.major_no = m.no
+group by entry_year, m.name;
+-- ----------------------------------------------------------------
+-- join 과 group 결합
+-- 1. 학과이름별 학생수 조회
+select m.name, count(*) as student_count
+from major m join student s on m.no=s.major_no
+group by m.name;
+-- 2. 학생이름 별, 전체 수강 과목의 평균 평점 조회, 전체 이수한 학점의 합 조회
+select s.name, avg(e.grade) as avg_grade, sum(c.score) as sum_score
+from student s join enrollment e on s.no = e.student_no
+     join course c on e.course_no = c.no
+	group by s.no, s.name;
+    
+-- 3. 강좌 이름별, 수강생 숫자, 이수한 평균 평점 조회
+select c.name, count(*), avg(e.grade)
+from course c join enrollment e on c.no = e. course_no
+group by c.name;
+    
+-- 4. 학과별, 수강과목별, 수강한 학생 인원수 조회
+select m.name, c.name, count(*)
+from major m 
+	join student s on m.no=s.major_no
+	join enrollment e on e.student_no = s.no
+    join course c on e.course_no=c.no
+group by m.name, c.name;
+
+-- 5. 입학년도별, 학과별, 인원 수 조회 
+select left(s.no,4), m.name, count(*)
+from student s join major m on s.major_no=m.no
+group by left(s.no,4),m.name;
+
+-- --------------------------------------
+delete from enrollment where course_no in('C13432115','C16342045','C18188658');
+alter table enrollment drop constraint FK_student_TO_enrollment1;
+delete from student where major_no in('105', '108');
+delete from enrollment where student_no in('20230017','20240685','20260333');
+
+-- 외부 join (outter join) join 의 왼쪽 오른쪽
+select*from A left outer join B on A.code=B.code;
+select*from A right outer join B on A.code=B.code;
+
+-- 이건 좀어려운듯 불일치 쿼리 찾기
+select*from A left outer join B on A.code=B.code where B.code is null;
+select*from A where code not in(select code from B);
+select*
+from A right outer join B on A.code = B.code
+ where A.code is null;
+
+-- 학과 테이블에서 학과 인원수가 0인 학과들의 학과번호, 학과명을 조회
+select *
+from major m left outer join student s on m.no=s.major_no;
+
+select m.no, m.name
+from major m left outer join student s on m.no=s.major_no
+where s.major_no is null;
+
+select m.no, m.name
+from student s right outer join major m on m.no=s.major_no
+where s.major_no is null;
+
+-- 한번도 수강신청하지 않은 학생들을 조회
+-- 학번 이름 학과명 연락처
+select s.no, s.name, m.name, s.phone
+from student s left outer join enrollment e on s.no= e.student_no
+join major m on s.major_no= m.no
+where e.student_no is null;
+
+select s.no, s.name, m.name, s.phone
+from student s join major m on s.major_no = m.no
+left outer join enrollment e on s.no = e.student_no
+where e.student_no is null;
+
+-- 한번 수강신청이 되지 않은 과정 조회
+-- 과정번호, 과정명
+select c.*
+from course c left outer join enrollment e on c.no = e.course_no
+where e.course_no is null;
+
+-- --------------------------------------------------------------------------------------------------------------
+-- group_ex2 .... 문제
+-- 1. 연료 타입(fuel_type)별 자동차 수, 평균 가격 조회
+select fuel_type, count(*) as car_count, avg(price) as avg_price
+from car
+group by fuel_type;
+-- 2. 지점(branch)별 총 판매 건수 조회
+SELECT branch, count(*)
+FROM sales
+group by branch;
+-- 3. 제조사 번호별 등록된 자동차 수 조회
+SELECT m.no, count(*)
+FROM manufacturer m join car c on m.no= c.manufacturer_no
+group by m.no;
+
+-- 4. 판매 날짜별 판매 건수 조회
+SELECT sales_date as salesday, count(*)as sales
+from sales 
+group by sales_date
+ORDER BY salesday desc;
+
+-- 5. 국가(country)별 제조사 수 조회
+SELECT country, count(*)
+FROM manufacturer 
+GROUP BY country;
+
+-- 6. 자동차 이름과 해당 자동차 제조사의 이름을 함께 조회
+
+-- 7. 판매 내역의 고객 이름과 판매된 자동차의 이름을 조회
+
+-- 8. 2000년 이후에 설립된 제조사의 자동차들 조회
+
+-- 9. 가격이 7000만 원 이상인 차를 산 고객 리스트 조회
+-- 10. 각 판매 내역에 대해 '차이름(제조사명)' 형식으로 출력
+-- 11. 제조사 이름별 자동차 모델 수 조회
+-- 12. 연료 타입별 총 판매 대수를 내림차순 조회
+-- 13. 가장 많이 팔린 자동차 모델 이름과 판매 대수 조회
+-- 14. 2024년에 가장 많이 판매한 제조사 이름 조회
+-- 15. 모든 제조사와 해당 제조사가 생산한 자동차 수를 조회 (자동차가 없는 제조사도 0으로 표시)
+-- 16. 한 번도 판매된 적이 없는 자동차의 모델명과 제조사명 조회
+-- 17. 자동차를 하나도 등록하지 않은 제조사의 이름과 국가 조회
+-- 18. 모든 자동차 리스트를 출력하고, 2025년에 판매된 적이 있는지 여부 표시 (판매된 차는 판매일, 아니면 '판매된적없음'으로 출력)
+
+-- ----------------- 윗문제들
+-- 1. 연료 타입(fuel_type)별 자동차 수, 평균 가격 조회
+select fuel_type, count(*) as count_car, avg(price) as avg_price
+from car group by fuel_type;
+-- 2. 지점(branch)별 총 판매 건수 조회
+select branch, count(*) from sales group by branch;
+-- 3. 제조사 번호별 등록된 자동차 수 조회
+select manufacturer_no, count(*) as count_car from car group by manufacturer_no;
+-- 4. 판매 날짜별 판매 건수 조회
+select sales_date, count(*) as count_sales from sales
+group by sales_date;
+-- 5. 국가(country)별 제조사 수 조회
+select country, count(*) as count_country from manufacturer group by country;
+-- 6. 자동차 이름과 해당 자동차 제조사의 이름을 함께 조회
+select c.name, m.name 
+from car c inner join manufacturer m on c.manufacturer_no = m.no;
+select c.name, m.name 
+from car c join manufacturer m on c.manufacturer_no = m.no;
+-- 7. 판매 내역의 고객 이름과 판매된 자동차의 이름을 조회
+select s.customer_name, c.name
+from sales s join car c on s.car_no = c.no;
+-- 8. 2000년 이후에 설립된 제조사의 자동차들 조회
+select c.*, m.name
+from manufacturer m join car c
+where foundation_year >= 2000;
+-- 9. 가격이 7000만 원 이상인 차를 산 고객 리스트 조회
+select s.customer_name, c.name
+from sales s join car c on s.car_no = c.no
+where c.price >= 7000;
+-- 10. 각 판매 내역에 대해 '차이름(제조사명)' 형식으로 출력
+--     고객명, 차이름(제조사명)
+select s.customer_name, concat(c.name,'(',m.name,')') as car_name
+from sales s join car c on s.car_no = c.no
+join manufacturer m on c.manufacturer_no = m.no;
+-- 11. 제조사 이름별 자동차 모델 수 조회
+select m.name, count(*) as count_car
+from manufacturer m join car c on m.no = c.manufacturer_no
+group by m.name;
+-- 12. 연료 타입별 총 판매 대수를 내림차순 조회
+select fuel_type, count(*) as sale_car_count
+from car c join sales s on c.no = s.car_no
+group by fuel_type order by sale_car_count desc;
+-- 13. 가장 많이 팔린 자동차 모델 이름과 판매 대수 조회
+select c.name, count(*) as count_car
+from car c join sales s on c.no = s.car_no
+group by c.name
+order by count_car desc limit 1;
+-- 14. 2024년에 가장 많이 판매한 제조사 이름 조회
+select m.name, count(*) as sales_count
+from sales s join car c on s.car_no = c.no
+join manufacturer m on c.manufacturer_no = m.no
+where year(s.sales_date) =2024
+group by m.name
+order by sales_count desc limit 1;
+-- 15. 모든 제조사와 해당 제조사가 생산한 자동차 수를 조회 (자동차가 없는 제조사도 0으로 표시)
+select m.name, count(c.no) as manufacturer_count
+from car c right join manufacturer m on c.manufacturer_no = m.no
+group by m.name;
+-- 16. 한 번도 판매된 적이 없는 자동차의 모델명과 제조사명 조회
+select c.*, m.name
+from car c join manufacturer m on c.manufacturer_no = m.no
+left outer join sales s on c.no = s.car_no
+where s.id is null;
+-- 17. 자동차를 하나도 등록하지 않은 제조사의 이름과 국가 조회
+select m.name, m.country
+from car c right outer join manufacturer m on c.manufacturer_no = m.no
+where c.no is null;
+-- 18. 모든 자동차 리스트를 출력하고, 2025년에 판매된 적이 있는지 여부 표시 
+--     (판매된 차는 판매일, 아니면 '판매된적없음'으로 출력)
+select c.*, if(year(s.sales_date) =2025,s.sales_date,'판매된적없음') as is_sales_2025
+from car c left join sales s on c.no = s.car_no;
+
+select fuel_type, count(*) as car_count, avg(price) as avg_price
+from car
+group by fuel_type;

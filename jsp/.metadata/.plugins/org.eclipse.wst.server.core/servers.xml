@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<servers>
+  <server auto-publish-setting="2" auto-publish-time="1" configuration-id="/Servers/Tomcat v11.0 Server at localhost-config" deployDir="C:\GREEN workspace\apache-tomcat-11.0.22\webapps" hostname="localhost" id="Tomcat v11.0 Server at localhost" name="Tomcat v11.0 Server at localhost" runtime-id="Apache Tomcat v11.0" server-type="org.eclipse.jst.server.tomcat.110" server-type-id="org.eclipse.jst.server.tomcat.110" start-timeout="60" stop-timeout="15" testEnvironment="false" timestamp="12">
+    <list key="modules" value0="student-mvc::org.eclipse.jst.jee.server:student-mvc::jst.web::6.1" value1="student-mvc-dao::org.eclipse.jst.jee.server:student-mvc-dao::jst.web::6.1" value2="memeber-Project::org.eclipse.jst.jee.server:memeber-Project::jst.web::6.1" value3="FileUpload::org.eclipse.jst.jee.server:FileUpload::jst.web::6.1" value4="board-project::org.eclipse.jst.jee.server:board-project::jst.web::6.1" value5="student-mvc-mybatis::org.eclipse.jst.jee.server:student-mvc-mybatis::jst.web::6.1" value6="member-api-server::org.eclipse.jst.jee.server:member-api-server::jst.web::6.1" value7="employee-project::org.eclipse.jst.jee.server:employee-project::jst.web::4.0" value8="naver-api-server::org.eclipse.jst.jee.server:naver-api-server::jst.web::6.1"/>
+  </server>
+</servers>

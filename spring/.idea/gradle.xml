@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/step14-board-jpa" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/step14-board-jpa" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/step15-security-basic" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/step15-security-basic" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/step15-security-basic-front" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/step15-security-basic-front" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/step16-security-oauth2-back" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/step16-security-oauth2-back" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/step17-board-backend" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/step17-board-backend" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

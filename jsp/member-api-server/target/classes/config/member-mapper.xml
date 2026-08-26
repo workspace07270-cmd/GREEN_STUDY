@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	[회원 관리 SQL 매퍼 XML]
+	이 파일은 데이터베이스에 실행할 SQL 문들을 정의합니다.
+	- namespace: 연결될 자바 매퍼 인터페이스의 전체 경로를 적습니다.
+-->
+<mapper namespace="mapper.MemberMapper">
+
+	<!-- 
+		[전체 회원 조회]
+		- id: 매퍼 인터페이스의 메서드 명과 동일하게 설정합니다.
+		- resultType: 조회 결과를 담을 자바 객체 타입입니다. (member는 MemberDTO의 별칭)
+	-->
+	<select id="selectAllMember" resultType="member">
+		select * from board_member
+	</select>
+
+	<!-- 
+		[아이디로 특정 회원 조회]
+		- #{id}: 파라미터로 넘어온 데이터를 안전하게(PreparedStatement 방식) SQL에 채워넣습니다.
+	-->
+	<select id="selectMemberById" resultType="member">
+		select * from board_member where id = #{id}
+	</select>
+	
+	<!-- [고유 번호로 특정 회원 조회] -->
+	<select id="selectMemberByNo" resultType="member">
+		select * from board_member where no = #{no}
+	</select>
+
+	<!-- 
+		[회원 정보 추가]
+		- sha2(#{passwd}, 512): 비밀번호 보안을 위해 512비트 해시 암호화를 적용합니다.
+	-->
+	<insert id="insertMember">
+		insert into board_member(id,passwd,username,nickname)
+		values(#{id},sha2(#{passwd},512),#{userName},#{nickName})
+	</insert>
+	
+	<!-- 
+		[회원 정보 수정]
+		- 해당 번호(no)를 가진 회원의 비밀번호, 이름, 닉네임을 변경합니다.
+	-->
+	<update id="updateMember">
+		update 
+			board_member 
+		set 
+			passwd=sha2(#{passwd},512),
+			username=#{userName},
+			nickname=#{nickName}
+		where
+			no = #{no}
+	</update>
+
+	<!-- 
+		[로그인 확인]
+		- 아이디와 암호화된 비밀번호가 모두 일치하는 경우에만 회원 정보를 가져옵니다.
+	-->
+	<select id="login" resultType="member">
+		select no,username,nickname from board_member where id = #{id} and passwd = sha2(#{passwd},512)
+	</select>
+
+	<!-- [회원 데이터 삭제] -->
+	<delete id="deleteMember">
+		delete from board_member where no = #{no}
+	</delete>
+	
+	<!-- 
+		[회원 검색]
+		- ${kind}: 컬럼명(예: id, username)이 동적으로 바뀔 때 사용합니다. (따옴표 없이 값이 그대로 들어감)
+		- #{search}: 검색어 데이터입니다. (자동으로 따옴표가 붙어 안전하게 처리됨)
+		- concat('%', #{search}, '%'): 부분 일치 검색(LIKE)을 위해 검색어 앞뒤에 %를 붙입니다.
+	-->
+	<select id="searchMembers" resultType="member">
+		select * from board_member where ${kind} like concat('%',#{search},'%')
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+

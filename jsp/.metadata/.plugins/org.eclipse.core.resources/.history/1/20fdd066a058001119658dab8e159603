@@ -1,0 +1,44 @@
+package controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import dto.EmpDTO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import service.EmpService;
+import view.ModelAndView;
+
+public class EmpListController implements Controller {
+
+	@Override
+	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response)
+	        throws IOException {
+
+	    EmpService service = EmpService.getInstance();
+
+	    String emp_no = request.getParameter("emp_no");
+
+	    // 1. 단건 조회
+	    if (emp_no != null && !emp_no.equals("")) {
+
+	        int no = Integer.parseInt(emp_no);
+
+	        EmpDTO dto = service.getEmp(no);
+
+	        // 리스트로 감싸서 JSP는 동일하게 처리
+	        List<EmpDTO> list = new ArrayList<>();
+	        list.add(dto);
+
+	        request.setAttribute("list", list);
+
+	    } 
+	    // 2. 전체 조회
+	    else {
+	        request.setAttribute("list", service.getList());
+	    }
+
+	    return new ModelAndView("main", false);
+	}
+	}

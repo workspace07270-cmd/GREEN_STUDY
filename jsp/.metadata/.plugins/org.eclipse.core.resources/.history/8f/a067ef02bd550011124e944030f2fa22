@@ -1,0 +1,3 @@
+<script>
+	location.href = "./emp_list.do";
+</script>

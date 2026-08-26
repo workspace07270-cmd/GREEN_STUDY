@@ -1,0 +1,5 @@
+plus(int, int) 호출
+30
+plus(double, double) 호출
+30.5
+plus(char, char) 호출

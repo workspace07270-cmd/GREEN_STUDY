@@ -1,0 +1,256 @@
+drop database student_db;
+
+create database student_db;
+use student_db;
+
+-- 학과테이블
+-- 학과번호명, 학과명, 등록일
+-- 컬럼명 데이터 타입 제약조건1, 제약조건2
+create table major(
+no int auto_increment primary key,
+name varchar(20) not null unique,
+reg_date date default (CURRENT_DATE) 
+);
+-- 샘플데이터 5건
+-- 1. reg_date를 기본값(현재 날짜)으로 사용하는 경우
+INSERT INTO major (name) VALUES ('컴퓨터공학');
+INSERT INTO major (name) VALUES ('경영학');
+
+select *from major ;
+-- 2. reg_date를 직접 지정하는 경우 (과거 데이터 입력 등)
+INSERT INTO major (name, reg_date) VALUES ('시각디자인학', '2024-03-02');
+INSERT INTO major (name, reg_date) VALUES ('전자공학', '2025-01-15');
+
+-- 3. 여러 건을 한 번에 삽입하는 경우
+INSERT INTO major (name) VALUES ('심리학'),('생활체육');
+-- 테이블 속성 확인
+desc major;
+-- 학생 테이블 생성 (학과 테이블 참조)
+CREATE TABLE students (
+  student_id  INT          AUTO_INCREMENT PRIMARY KEY,  -- 학생 고유번호
+  name        VARCHAR(50)  NOT NULL,                    -- 이름
+  email       VARCHAR(100) NOT NULL UNIQUE,             -- 이메일 (중복 불가)
+  major_no     INT,                                      -- 학과
+  is_active  BOOLEAN      DEFAULT TRUE,                -- 재학 여부
+  enrolled_at DATETIME     DEFAULT NOW()               -- 등록일
+);
+
+-- 연락처 추가
+alter table students add column phone char(11);
+-- email에 @가 들어가 있는지 체크하는 제약조건
+-- 테이블구조변경이랑같음
+alter table students add constraint chk_email check(email like '_%@%_');
+-- chk_email 제약조건 삭제
+alter table students drop constraint chk_email;
+
+-- 샘플데이터
+
+-- 1번 학생 (기본 설정값 사용) - 체크
+INSERT INTO students (name, email, major_no) 
+VALUES ('김철수', 'chulsoo@example.com', 1);
+
+-- 2번 학생 (학과 번호 2)
+INSERT INTO students (name, email, major_no) 
+VALUES ('이영희', 'younghee@example.com', 2);
+
+-- 3번 학생 (휴학 중인 경우)
+INSERT INTO students (name, email, major_no, is_active) 
+VALUES ('박민수', 'minsoo@example.com', 1, FALSE);
+
+-- 4번 학생 (직접 등록일 지정)
+INSERT INTO students (name, email, major_no, enrolled_at) 
+VALUES ('최지우', 'jiwoo@example.com', 3, '2025-12-25 10:30:00');
+
+-- 5번 학생 (학과 번호 4)
+INSERT INTO students (name, email, major_no) 
+VALUES ('정다은', 'daeun@example.com', 4);
+
+-- 키(key)는 식별자-값을 구분할수있는 컬럼
+-- 후보키, 기본키, 대체키(후보키에서 당첨되지 못한 키), 슈퍼키, 외래키
+
+-- 외래키(Foreign Key) 제약조건
+-- on delete restrict: 참조중인 값이 있으면 삭제가 안되게끔 멈춤
+--					   참조중인 테이블의 튜픙을 제거 및 업데이트 수행 후 삭제 가능
+--                     참조중인 값이 없어야 삭제가 가능
+
+alter table students add constraint fk_major_no foreign key(major_no)
+references major(no) on delete restrict;
+
+-- on delete set null: 삭제가 되었을 때 참조중 값은 null로변경
+alter table students add constraint fk_major_no foreign key(major_no)
+references major(no) on delete set null;
+
+-- on delete cascade: 참조되던 값이 삭제되면 같이삭제 (삭제할때 연계될때 다 지움)
+alter table students add constraint fk_major_no foreign key(major_no)
+references major(no) on delete cascade;
+
+-- on update restirct :자식 테이블에 값이 있으면 수정작업 취소
+alter table students add constraint fk_major_no foreign key(major_no)
+references major(no) on update restrict;
+
+-- on update cascade: 자식 테이블에 값이 있으면 수정 작업을 할때 동일 한 값으로 수정
+alter table students add constraint fk_major_no foreign key(major_no)
+references major(no) on update cascade;
+
+-- on update set null: 자식 테이블에 값이 있으면 수정 작업을 할때 null 값으로 수정
+alter table students add constraint fk_major_no foreign key(major_no)
+references major(no) on update set null;
+
+-- 두옵션을 전부 한번에 처리
+alter table students add constraint fk_major_no foreign key(major_no)
+references major(no) on delete cascade on update set null;
+-- 테이블 속성 확인
+desc major;
+
+select*from students;
+
+-- 외래키 제액 조건 삭제
+alter table students drop constraint fk_major_no;
+
+delete from major where no= 3;
+
+-- 과목테이블
+-- 과목번호, 과목명, 
+create table subjects(
+	code int,
+	title varchar (20)
+);
+
+alter table students drop constraint pk_code;
+
+alter table subjects add constraint pk_code primary key(code);
+-- 제거
+alter table subjects drop primary key;
+
+-- -----------------------------------------------------------------------------
+create database new_student_db;
+use new_student_db;
+
+-- -----------------------------------------------------------------
+
+
+create database new_student_db;
+use new_student_db;
+create table major (
+	no char(3) not null,
+	name varchar(20) null,
+	building varchar(10) null,
+	tel char(11) null
+);
+
+create table student (
+	no char(8) not null,
+	major_no char(3) not null,
+	name varchar(10) null,
+	phone char(11) null
+);
+
+create table course (
+	no char(9) not null,
+	name varchar(20) null,
+	score decimal(1) null
+);
+
+create table Enrollment (
+	course_no char(9) not null,
+	student_no char(8) not null,
+	grade char(2) null
+);
+
+alter table major add constraint PK_MAJOR primary key (no);
+
+alter table student drop primary key;
+
+alter table student add constraint PK_STUDENT primary key (no);
+
+alter table course add constraint PK_COURSE primary key (no);
+
+alter table Enrollment add constraint PK_ENROLLMENT primary key (
+	course_no,
+	student_no
+);
+
+alter table student add constraint FK_major_TO_student_1 foreign key (major_no)
+references major (no);
+
+alter table Enrollment add constraint FK_course_TO_Enrollment_1 foreign key (course_no)
+references course (no);
+
+alter table Enrollment add constraint FK_student_TO_Enrollment_1 foreign key (student_no)
+references student (no);
+
+
+-------------------------------------------------------------------------
+ drop DATABASE food_db;
+create database food_db;
+use food_db;
+
+
+CREATE TABLE category
+(
+  id   int         NOT NULL,
+  name VARCHAR(10) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE food_order
+(
+  no       int        NOT NULL,
+  time     DATETIME   NULL     DEFAULT now(),
+  status   DECIMAL(1) NULL    ,
+  table_no int        NOT NULL,
+  PRIMARY KEY (no)
+);
+
+CREATE TABLE food_order_detail
+(
+  order_no int        NOT NULL,
+  menu_id  INT        NOT NULL,
+  quantity DECIMAL(4) NULL    
+);
+
+CREATE TABLE food_order_table
+(
+  no     int     NOT NULL,
+  status BOOLEAN NULL    ,
+  PRIMARY KEY (no)
+);
+
+CREATE TABLE menu
+(
+  id          INT         NOT NULL,
+  name        VARCHAR(30) NOT NULL,
+  price       INT         NULL    ,
+  status      BOOLEAN     NULL    ,
+  recommand   BOOLEAN     NULL    ,
+  category_id int         NOT NULL,
+  PRIMARY KEY (id)
+);
+
+ALTER TABLE menu
+  ADD CONSTRAINT FK_category_TO_menu
+    FOREIGN KEY (category_id)
+    REFERENCES category (id);
+
+ALTER TABLE food_order
+  ADD CONSTRAINT FK_food_order_table_TO_food_order
+    FOREIGN KEY (table_no)
+    REFERENCES food_order_table (no);
+
+ALTER TABLE food_order_detail
+  ADD CONSTRAINT FK_food_order_TO_food_order_detail
+    FOREIGN KEY (order_no)
+    REFERENCES food_order (no);
+
+ALTER TABLE food_order_detail
+  ADD CONSTRAINT FK_menu_TO_food_order_detail2
+    FOREIGN KEY (menu_id)
+    REFERENCES menu (id);
+
+-- 주문 수량은 0보다 커야 한다는 제약 조건 추가
+alter table food_order_detail 
+add constraint chk_quantity check (quantity > 0);
+
+-- 테이블 번호는 1번부터 20번 사이여야 한다는 제약 조건 추가
+alter table food_order_table 
+add constraint chk_table_no check (no between 1 and 20)

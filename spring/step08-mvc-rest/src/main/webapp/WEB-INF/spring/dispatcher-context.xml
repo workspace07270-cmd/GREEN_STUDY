@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           https://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/mvc
+           https://www.springframework.org/schema/mvc/spring-mvc.xsd
+           http://www.springframework.org/schema/context
+           https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- @Controller 등 어노테이션 스캔 -->
+	<context:component-scan base-package="com.spring"/>
+	
+	<!-- MVC 어노테이션(@RequestMapping 등) 활성화 -->
+	<mvc:annotation-driven/>
+	
+	<!-- CORS 전역설정 스프링시큐리티전에만사용 
+	추가내용 webconfig 작동하기 위해-->
+	<mvc:cors>
+        <mvc:mapping path="/**"
+            allowed-origins="*"
+            allowed-methods="GET,POST,PUT,DELETE,OPTIONS"
+            allowed-headers="*"
+            max-age="3600"/>
+    </mvc:cors>
+	
+	<!-- 파일 업로드 Resolver: StandardServletMultipartResolver는 web.xml의 multipart-config를 사용 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+	
+	<!-- 정적 자원(CSS, JS 등) 처리 -->
+	<mvc:resources location="/resources" mapping="/resources/**"/>
+	
+	<!-- 뷰 리졸버: 컨트롤러가 리턴한 이름으로 실제 JSP 경로 찾기 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    
+    <!-- 인터셉터 등록: /board/** 경로에만 LoginCheckIntercepter 적용 -->
+    <mvc:interceptors>
+    	<mvc:interceptor>
+    		<mvc:mapping path="/board/**"/>
+    		<bean class = "com.spring.interceptor.LoginCheckInterceptor"></bean>
+    	</mvc:interceptor>
+    </mvc:interceptors>
+</beans>
+
+

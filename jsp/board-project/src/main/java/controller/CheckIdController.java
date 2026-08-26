@@ -1,0 +1,52 @@
+package controller;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import org.json.JSONObject;
+
+import dto.MemberDTO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import service.MemberService;
+import view.ModelAndView;
+
+/**
+ * 아이디 중복 체크를 담당하는 컨트롤러입니다.
+ * 사용자가 입력한 아이디가 이미 DB에 존재하는지 확인합니다.
+ */
+public class CheckIdController implements Controller {
+
+	@Override
+	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// 1. 클라이언트(웹 페이지)가 보낸 아이디 파라미터를 읽어옵니다.
+		String id = request.getParameter("id");
+		
+		// 2. MemberService를 통해 해당 아이디를 가진 회원 정보가 있는지 DB에서 검색합니다.
+		MemberDTO member = MemberService.getInstance().selectMemberById(id);
+		
+		// 3. 검색 결과를 담을 맵(Map) 객체를 생성합니다. (결과 코드와 메시지를 담기 위함)
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		if(member == null) {
+			// 회원 정보가 없으면 사용 가능한 아이디입니다.
+			map.put("result", 1); // 성공 코드 (1: 사용 가능)
+			map.put("msg", "사용할 수 있는 아이디 입니다.");
+		} else {
+			// 회원 정보가 있으면 중복된 아이디입니다.
+			map.put("result", 0); // 실패 코드 (0: 중복됨)
+			map.put("msg", "중복된 아이디 입니다.");
+		}
+				
+		// 4. Map 객체를 JSON 형식의 문자열로 변환합니다. (AJAX 통신을 위해)
+		JSONObject json = new JSONObject(map);
+		
+		// 5. 응답 본문에 JSON 데이터를 작성하여 클라이언트에게 보냅니다.
+		response.getWriter().println(json.toString());
+		
+		// 이 컨트롤러는 AJAX 요청에 대해 직접 응답을 작성하므로, 
+		// 다른 페이지로 이동(forward/redirect)하지 않기 위해 null을 리턴합니다.
+		return null;
+	}
+
+}

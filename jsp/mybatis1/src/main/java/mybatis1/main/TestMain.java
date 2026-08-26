@@ -1,0 +1,63 @@
+package mybatis1.main;
+
+import java.util.List;
+import java.util.Map;
+
+import mybatis1.config.DBManager;
+import mybatis1.dto.StudentDTO1;
+import mybatis1.mapper.StudentMapper;
+
+/**
+ * MyBatis가 실제로 잘 작동하는지 테스트해보는 메인 클래스입니다.
+ */
+public class TestMain {
+
+	public static void main(String[] args) {
+		// 1. DBManager를 통해 세션을 열고, StudentMapper 인터페이스를 가져옵니다.
+		// MyBatis가 인터페이스의 내용을 바탕으로 실제 실행 가능한 객체를 자동으로 만들어줍니다.
+		StudentMapper mapper = DBManager.getInstance()
+				.getSession().getMapper(StudentMapper.class);
+		
+		// 아래 주석들을 하나씩 풀면서 테스트해볼 수 있습니다.
+
+		// --- 전체 학생 조회 테스트 ---
+//		List<StudentDTO1> list = mapper.selectAllStudent();
+//		for(StudentDTO1 dto : list)
+//			System.out.println(dto);
+		
+		// --- 이름으로 검색 테스트 ---
+//		String name = "재원";
+//		List<StudentDTO1> list = mapper.selectForName(name);
+//		for(StudentDTO1 dto : list)
+//			System.out.println(dto);
+		
+		// --- 학번으로 한 명 조회 테스트 ---
+//		String no = "202299281";
+//		StudentDTO1 dto = mapper.selectForNo(no);
+//		System.out.println(dto);
+		
+		// --- 학생 정보 추가 테스트 ---
+//		StudentDTO1 dto = new StudentDTO1("2222222","김철수","물리학과",3.5);
+//		int count = mapper.insertStudent(dto);
+//		System.out.println("추가된 행 개수 : " + count);
+		
+		// --- 학생 정보 삭제 테스트 ---
+//		String no = "2222222";
+//		int count = mapper.deleteStudent(no);
+//		System.out.println("삭제된 행 개수 : " + count);
+		
+		// --- 학생 정보 수정 테스트 ---
+//		StudentDTO1 dto = new StudentDTO1("20229928","김철수","물리학과",3.5);
+//		int count = mapper.updateStudent(dto);
+//		System.out.println("수정된 행 개수 : " + count);
+		
+		// --- 고급 기능: 학과별 학생 수 출력 ---
+		System.out.println("===== 학과별 학생 수 통계 =====");
+		List<Map<String, Object>> list = mapper.selectStudentDeptCount();
+		for(Map<String, Object> map : list) {
+			// 맵(Map)에서 키값을 이용해 데이터를 꺼내 출력합니다.
+			System.out.println("학과: " + map.get("major_name") + " | 학생수: " + map.get("major_count") + "명");
+		}
+	}
+
+}

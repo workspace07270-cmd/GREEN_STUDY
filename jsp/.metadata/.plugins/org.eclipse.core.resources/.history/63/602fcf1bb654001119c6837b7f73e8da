@@ -1,0 +1,49 @@
+package api;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import config.APIKey;
+
+public class APICallTestMain1 {
+
+	public static void main(String[] args) {
+		// 1. URL 셋팅
+		String apiURL = "https://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList?ServiceKey=";
+		// 2. 헤더 및 URL에 인증 및 기타 정보를 설정
+		apiURL += APIKey.PUBLIC_DATA_KEY;
+		// 3. 전달 정보를 셋팅
+		apiURL += "&emdongNm=노고산동";
+		// 4. 전달할 정보를 URL에 추가(GET) 또는 JSON형태로 작성 해서 전송(POST)
+		try {
+			// HTTP 호출할 URL 객체 생성
+			URL url = new URL(apiURL);
+			// 연결할 객체를 생성
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			// Method 설정, 데이터 전송 설정
+			conn.setRequestMethod("GET");
+			
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(conn.getInputStream()));
+			
+			
+			
+			
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		// 5. 결과를 받아서 출력
+		
+		
+		
+	}
+
+}

@@ -1,0 +1,33 @@
+INDEX VERSION 1.134
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2078184460.index
+\day08-problem02\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3353823499.index
+\step08-mvc-rest\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\307160145.index
+\day08-problem04\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1629349563.index
+\step08-mvc-rest\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\605495047.index
+\step08-mvc-rest\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1483495542.index
+\day06-problem01\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1160964325.index
+\step09-spring-thymleaf\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1830032355.index
+\day06-problem04\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\648334427.index
+\step09-spring-thymleaf\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1769050406.index
+\day08-problem03\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1813963961.index
+\step06-mvc-basic\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3117384077.index
+\day06-problem03\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4247793930.index
+\step08-mvc-rest\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3613365703.index
+\day06-problem04\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\63064247.index
+\step09-spring-thymleaf\src\main\java
+C:\GREEN workspace\work_py\spring\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1262772485.index
+\day06-problem02\src\main\java

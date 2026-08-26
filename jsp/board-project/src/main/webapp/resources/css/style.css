@@ -1,0 +1,668 @@
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ===== Layout ===== */
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* ===== Header / Nav ===== */
+.menu_bar {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 0 24px;
+}
+
+.menu_bar ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    height: 52px;
+    gap: 24px;
+}
+
+.menu_bar ul li {
+    display: flex;
+    align-items: center;
+}
+
+.menu_bar a {
+    font-weight: 500;
+    color: #444;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.15s, color 0.15s;
+}
+
+.menu_bar a:hover {
+    color: #1a73e8;
+    border-bottom-color: #1a73e8;
+    text-decoration: none;
+}
+
+/* ===== Page Content ===== */
+.page-content {
+    max-width: 960px;
+    margin: 32px auto;
+    padding: 0 16px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 0;
+}
+
+/* ===== Board List Table (main.jsp) ===== */
+.board_table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    margin-top: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.board_table thead th {
+    background-color: #f8f8f8;
+    padding: 12px 14px;
+    text-align: center;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 1px solid #e0e0e0;
+    white-space: nowrap;
+}
+
+.board_table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.1s;
+}
+
+.board_table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.board_table tbody tr:hover {
+    background-color: #fafafa;
+}
+
+.board_table tbody td {
+    padding: 11px 14px;
+    text-align: center;
+    color: #444;
+}
+
+.board_table tbody td:nth-child(2) {
+    text-align: left;
+}
+
+.board_table tfoot td {
+    padding: 14px;
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.pagination a,
+.pagination span {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #444;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.pagination a:hover {
+    background-color: #e8f0fe;
+    border-color: #1a73e8;
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+.pagination .active {
+    background-color: #1a73e8;
+    border-color: #1a73e8;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ===== Form Card (login.jsp, member-register.jsp, board_write.jsp) ===== */
+.form-card {
+    max-width: 460px;
+    margin: 60px auto;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 40px 36px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.form-card h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+/* ===== Inputs ===== */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 2px rgba(26,115,232,0.15);
+}
+
+/* ===== Buttons ===== */
+button,
+.btn {
+    display: inline-block;
+    padding: 9px 18px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s, opacity 0.15s;
+}
+
+button:hover,
+.btn:hover {
+    opacity: 0.88;
+}
+
+/* Primary button */
+button[type="submit"],
+button:not([type]),
+.btn-primary {
+    background-color: #1a73e8;
+    color: #fff;
+}
+
+/* Secondary button */
+button[type="button"],
+.btn-secondary {
+    background-color: #f1f3f4;
+    color: #444;
+}
+
+.btn-full {
+    width: 100%;
+    padding: 11px;
+    font-size: 15px;
+}
+
+/* Inline button next to input (중복확인) */
+.input-with-btn {
+    display: flex;
+    gap: 8px;
+}
+
+.input-with-btn input {
+    flex: 1;
+}
+
+.input-with-btn button {
+    white-space: nowrap;
+    padding: 9px 12px;
+}
+
+/* ===== Check result message (member-register.jsp) ===== */
+#idCheckResult {
+    font-size: 12px;
+    min-height: 18px;
+    margin-top: 2px;
+}
+
+/* ===== Board Write (board_write.jsp) ===== */
+.write-card {
+    max-width: 820px;
+    margin: 32px auto;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 32px 36px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.write-card h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 20px;
+}
+
+.write-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.write-title-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    white-space: nowrap;
+}
+
+.write-title-group input {
+    flex: 1;
+}
+
+.write-file-group {
+    margin: 16px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.write-file-group input[type="file"] {
+    font-size: 13px;
+    color: #555;
+}
+
+.write-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+/* ===== Quill editor override ===== */
+#editor {
+    height: 500px;
+    border-radius: 0 0 5px 5px;
+}
+
+.ql-container {
+    font-size: 14px;
+}
+
+/* ===== Board View (board_view.jsp) ===== */
+main {
+    max-width: 820px;
+    margin: 32px auto;
+    padding: 0 16px;
+}
+
+article {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 32px 36px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.board-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+}
+
+.board-meta-info {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+.board-meta-info + .board-meta-info {
+    margin-bottom: 16px;
+}
+
+.board-content {
+    min-height: 200px;
+    padding: 20px 0;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    margin: 16px 0;
+    line-height: 1.7;
+    color: #333;
+    font-size: 15px;
+}
+
+.board-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+/* 좋아요 / 싫어요 버튼 */
+.btn-like,
+.btn-hate {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    background-color: #fff;
+    color: #555;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+.btn-hate img{
+	transform:rotateZ(180deg);
+}
+
+
+.btn-like img,
+.btn-hate img {
+    width: 16px;
+    height: 16px;
+}
+
+.btn-like:hover {
+    background-color: #e8f0fe;
+    border-color: #1a73e8;
+    color: #1a73e8;
+    opacity: 1;
+}
+
+.btn-hate:hover {
+    background-color: #fce8e6;
+    border-color: #d93025;
+    color: #d93025;
+    opacity: 1;
+}
+
+/* 뒤로가기 / 수정 / 삭제 버튼 */
+.btn-back {
+    background-color: #f1f3f4;
+    color: #444;
+}
+
+.btn-update {
+    background-color: #1a73e8;
+    color: #fff;
+}
+
+.btn-delete {
+    background-color: #fff;
+    color: #d93025;
+    border: 1px solid #d93025;
+}
+
+.btn-delete:hover {
+    background-color: #fce8e6;
+    opacity: 1;
+    text-decoration: none;
+}
+
+.btn-update:hover {
+    text-decoration: none;
+    opacity: 0.88;
+}
+
+.btn-back:hover {
+    text-decoration: none;
+    opacity: 0.88;
+}
+
+/* 첨부파일 목록 */
+.board-file-list {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.board-file-list p {
+    margin-bottom: 6px;
+}
+
+.board-file-list a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: #1a73e8;
+    padding: 3px 0;
+}
+
+.board-file-list a::before {
+    content: '📎';
+    font-size: 12px;
+}
+
+.board-file-list a:hover {
+    text-decoration: underline;
+}
+
+/* ===== Comment Area (board_view.jsp) ===== */
+.comment-area {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 24px 36px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-top: 16px;
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+}
+
+.comment-form textarea:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 2px rgba(26,115,232,0.15);
+}
+
+.comment-form button {
+    align-self: flex-end;
+    padding: 8px 20px;
+    background-color: #1a73e8;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.comment-form button:hover {
+    opacity: 0.88;
+}
+
+.comment-non-login {
+    font-size: 13px;
+    color: #888;
+    text-align: center;
+    padding: 12px 0;
+}
+
+/* 댓글 목록 */
+.comment-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.comment-item {
+    padding: 14px 16px;
+    border: 1px solid #f0f0f0;
+    border-radius: 6px;
+    background-color: #fafafa;
+}
+
+.comment-info {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 6px;
+}
+
+.comment-content {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.comment-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* 댓글 좋아요 / 싫어요 버튼 */
+.btn-comment-like,
+.btn-comment-hate {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    background-color: #fff;
+    color: #555;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.btn-comment-like img,
+.btn-comment-hate img {
+    width: 13px;
+    height: 13px;
+}
+
+.btn-comment-hate img {
+    transform: rotateZ(180deg);
+}
+
+.btn-comment-like:hover {
+    background-color: #e8f0fe;
+    border-color: #1a73e8;
+    color: #1a73e8;
+    opacity: 1;
+}
+
+.btn-comment-hate:hover {
+    background-color: #fce8e6;
+    border-color: #d93025;
+    color: #d93025;
+    opacity: 1;
+}
+
+/* 댓글 삭제 버튼 */
+.btn-comment-delete {
+    padding: 4px 10px;
+    font-size: 12px;
+    background-color: #fff;
+    color: #d93025;
+    border: 1px solid #d93025;
+    border-radius: 5px;
+}
+
+.btn-comment-delete:hover {
+    background-color: #fce8e6;
+    opacity: 1;
+    text-decoration: none;
+}
+
+/* 댓글 더보기 버튼 */
+.btn-comment-more {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    background-color: #f1f3f4;
+    color: #444;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.btn-comment-more:hover {
+    background-color: #e8f0fe;
+    border-color: #1a73e8;
+    color: #1a73e8;
+    opacity: 1;
+}

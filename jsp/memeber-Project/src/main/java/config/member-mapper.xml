@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	회원 관련 SQL 쿼리들을 모아놓은 매퍼 파일입니다. 
+	namespace는 연결된 자바 인터페이스(MemberMapper)의 경로와 일치해야 합니다.
+-->
+<mapper namespace="mapper.MemberMapper">
+
+	<!-- 전체 회원 목록을 조회하는 쿼리입니다. 결과는 MemberDTO(alias: member) 객체에 담깁니다. -->
+	<select id="selectAllMember" resultType="member">
+		select * from board_member
+	</select>
+
+	<!-- 아이디로 특정 회원을 조회하는 쿼리입니다. #{id} 부분에 실제 값이 들어갑니다. -->
+	<select id="selectMemberById" resultType="member">
+		select * from board_member where id = #{id}
+	</select>
+
+	<!-- 회원 가입 쿼리입니다. 비밀번호는 MySQL의 sha2 함수를 이용해 512비트로 암호화하여 저장합니다. -->
+	<insert id="insertMember">
+		insert into board_member(id,passwd,username,nickname)
+		values(#{id},sha2(#{passwd},512),#{userName},#{nickName})
+	</insert>
+	
+	<update id="updateMember">
+		update
+			board_member
+		set
+			passwd=sha2(#{passwd},512),
+			username=#{userName},
+			nickname=#{nickName}
+		where
+			no = #{no}	
+	</update>
+
+	<!-- 로그인 확인 쿼리입니다. 아이디와 암호화된 비밀번호가 모두 일치하는 행을 찾습니다. -->
+	<select id="login" resultType="member">
+		select no,username,nickname from board_member where id = #{id} and passwd = sha2(#{passwd},512)
+	</select>
+
+	<!-- 고유 번호(no)를 기준으로 회원을 삭제하는 쿼리입니다. -->
+	<delete id="deleteMember">
+		delete from board_member where no = #{no}
+	</delete>
+	
+	<select id="searchMembers" resultType="member">
+		<!-- kind에 있는 컬럼명으로 search 값을 이용해서 부분일치 검색  -->
+		select * from board_member where ${kind} like concat('%',#{search},'%')
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+

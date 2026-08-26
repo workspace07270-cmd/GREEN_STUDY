@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="MavenProjectWizardLocationPage">
+		<list key="location">
+			<item value="C:\GREEN workspace\work_py\spring\step04-di\src\main\java"/>
+			<item value="C:\GREEN workspace\work_py\spring\step01-hello-spring"/>
+			<item value="C:\GREEN workspace\work_py\spring\step02-ioc-basic\pom.xml"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="MavenProjectWizardArchetypePage">
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="Maven2ProjectWizardArchifactPage">
+		<list key="package">
+		</list>
+		<list key="groupId">
+		</list>
+		<list key="artifactId">
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+		<list key="version">
+			<item value="0.0.1-SNAPSHOT"/>
+		</list>
+	</section>
+	<section name="MavenProjectWizardArtifactPage">
+		<list key="groupId">
+			<item value="com.spring"/>
+			<item value="dsadsa"/>
+		</list>
+		<list key="name">
+		</list>
+		<list key="artifactId">
+			<item value="step09-spring-thymleaf"/>
+			<item value="step08-mvc-rest"/>
+			<item value="step06-mvc-basic"/>
+			<item value="step05-di"/>
+			<item value="step04-di"/>
+			<item value="step04-bi"/>
+			<item value="step03-ioc-bean"/>
+			<item value="step01-hello-spring02"/>
+			<item value="asdsad"/>
+			<item value="step02-ioc-basic"/>
+			<item value="step01-hello-spring"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+		<list key="version">
+			<item value="0.0.1-SNAPSHOT"/>
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.pom.overview">
+	</section>
+	<section name="org.eclipse.m2e.core.pom.dependencies">
+	</section>
+	<section name="MavenProjectImportWizardPage">
+		<list key="rootDirectory">
+			<item value="C:\GREEN workspace\work_py\spring 문제\problems (8)"/>
+			<item value="C:\GREEN workspace\work_py\spring 문제\problems (7)"/>
+			<item value="C:\GREEN workspace\work_py\spring 문제\problems (5)"/>
+			<item value="C:\GREEN workspace\work_py\spring 문제\problems (4)"/>
+			<item value="C:\GREEN workspace\work_py\spring 문제\problems (3)"/>
+			<item value="C:\GREEN workspace\work_py\spring\problems (2)"/>
+			<item value="C:\GREEN workspace\work_py\spring\problems (1)"/>
+			<item value="C:\GREEN workspace\work_py\spring\problems"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+</section>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.EmpMapper">
+	<!-- 전체 조회 -->
+  <select id="getList" resultType="dto.EmpDTO">
+		select* from emp order by emp_no
+  </select>
+
+  <!-- 사원번호으로 조회 -->
+  <select id="getEmp" parameterType="int" resultType="dto.EmpDTO">
+		SELECT * FROM emp WHERE emp_no = #{emp_no}}
+  </select>
+
+  <!-- 등록 -->
+  <insert id="insertEmp" parameterType="dto.EmpDTO">
+		INSERT INTO emp (emp_name, dept, position, salary, hire_date, email)
+		VALUES (#{emp_name}, #{dept}, #{position}, #{salary}, #{hire_date}, #{email})
+  </insert>
+
+  <!-- 수정 -->
+  <update id="updateEmp" parameterType="dto.EmpDTO">
+
+  </update>
+
+  <!-- 삭제 -->
+  <delete id="deleteEmp" parameterType="int">
+
+  </delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+

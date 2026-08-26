@@ -1,0 +1,36 @@
+package servlet;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * Servlet implementation class NaverImageSearch
+ */
+@WebServlet("/image.do")
+public class NaverImageSearch extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public NaverImageSearch() {
+        super();
+    }
+    
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 검색어는 query 파라미터로 받고
+		String query= request.getParameter("query");
+		// 이미지 검색결과를 사용자에게 전송
+		
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

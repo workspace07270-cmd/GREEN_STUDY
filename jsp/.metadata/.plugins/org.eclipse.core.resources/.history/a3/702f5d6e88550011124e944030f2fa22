@@ -1,0 +1,32 @@
+package controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import dto.MemberDTO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import service.MemberService;
+import view.ModelAndView;
+
+/**
+ * 메인 페이지 표시를 담당하는 컨트롤러입니다.
+ * 전체 회원 목록을 조회하여 화면에 전달합니다.
+ */
+public class MainController implements Controller {
+
+	@Override
+	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		// 1. MemberService를 통해 DB에 저장된 모든 회원 정보를 가져옵니다.
+		List<MemberDTO> list = MemberService.getInstance().selectAllMember();
+		
+		// 2. 조회된 회원 목록(list)을 request 영역에 저장합니다.
+		// JSP 페이지(main.jsp)에서 'list'라는 이름으로 꺼내 쓸 수 있습니다.
+		request.setAttribute("list", list);
+		
+		// 3. 'main' 뷰(main.jsp)로 이동하도록 ModelAndView를 반환합니다. (Forward 방식)
+		return new ModelAndView("main", false);
+	}
+
+}
